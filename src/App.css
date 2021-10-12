@@ -5,3 +5,20 @@
 .line-top{
   border-top: 1px solid #cecece;
 }
+
+.special-form{
+  margin-top: 20px;
+}
+
+.marginBottom {
+  margin-bottom: 20px;
+}
+
+.link-x{
+  color: #6a6a6c;
+  text-underline: cyan;
+}
+
+.nav-head{
+  cursor: pointer;
+}

@@ -5,20 +5,21 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import {IconButton} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Settings from '@mui/icons-material/Settings';
-import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 import Signup from '@mui/icons-material/OpenInBrowserOutlined';
+import ModalForm from "./common/modal";
+import Drawer from "./common/drawer";
+
 
 class TopNavBar extends Component {
 
     state={
         searchInput: '',
-        login: true
+        login: false
     };
 
     handleSearch = (input)=>{
@@ -66,7 +67,7 @@ class TopNavBar extends Component {
         }));
 
         const LoginFalseNavBarMenu = <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <Button startIcon={<LoginOutlinedIcon/>} color="inherit">Login</Button>
+            <ModalForm />
             <Button startIcon={<Signup/>} color="inherit">Signup</Button>
         </Box>;
 
@@ -83,20 +84,20 @@ class TopNavBar extends Component {
             <Box sx={{ flexGrow: 1 }} style={{marginBottom: '10px'}}>
                 <AppBar position="static">
                     <Toolbar>
-                        <Typography variant={"h6"} component={"div"} sx={{ flexGrow: 1 }}>
+                        <Typography className={'nav-head'} variant={"h6"} component={"div"} sx={{ flexGrow: 1 }} onClick={()=>{window.location='/'}}>
                             BookStack
                         </Typography>
 
-                        <Search component={'div'} sx={{flexGrow: 1}}>
+                        {!['/login', '/signup'].includes(window.location.pathname) && <Search component={"div"} sx={{flexGrow: 1}}>
                             <SearchIconWrapper>
-                                <SearchIcon />
+                                <SearchIcon/>
                             </SearchIconWrapper>
                             <StyledInputBase
                                 onChange={this.handleSearch}
                                 placeholder="Search…"
-                                inputProps={{ 'aria-label': 'search' }}
+                                inputProps={{"aria-label": "search"}}
                             />
-                        </Search>
+                        </Search>}
 
                         {login? LoginTrueNavBarMenu: LoginFalseNavBarMenu}
 
@@ -107,7 +108,7 @@ class TopNavBar extends Component {
                                 color="inherit"
                                 aria-label="menu"
                             >
-                                <MenuIcon />
+                                <Drawer/>
                             </IconButton>
                         </Box>
                     </Toolbar>

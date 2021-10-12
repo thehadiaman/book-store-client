@@ -1,27 +1,25 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Container from '@mui/material/Container';
-import TopNavBar from "./components/topNavBar";
-import BookCard from "./components/common/bookCard";
+import React, {Component} from 'react';
+import HomePage from "./components/homePage";
+import {BrowserRouter, Route, Switch} from "react-router-dom";
+import LoginPage from "./components/loginPage";
 import './App.css';
+import {Box} from "@mui/material";
+import TopNavBar from "./components/topNavBar";
 
-export default function ResponsiveGrid() {
-    return (
-        <Box sx={{ flexGrow: 1 }}>
-            <TopNavBar/>
-            <Container>
-                <Grid container spacing={{ xs: 2, md: 3, lg: 3}} columns={{ xs: 12, sm: 12, md: 12, lg:12 }}>
-                    <BookCard/>
-                    <BookCard/>
-                    <BookCard/>
-                    <BookCard/>
-                    <BookCard/>
-                    <BookCard/>
-                    <BookCard/>
-                    <BookCard/>
-                </Grid>
-            </Container>
-        </Box>
-    );
+class App extends Component{
+    render() {
+        return (
+            <BrowserRouter>
+                <Box sx={{ flexGrow: 1 }}>
+                    <TopNavBar {...this} />
+                    <Switch>
+                        <Route path={'/login'} render={()=><LoginPage/>}/>
+                        <Route path={'/'} render={()=><HomePage/>}/>
+                    </Switch>
+                </Box>
+            </BrowserRouter>
+        );
+    }
 }
+
+export default App;
