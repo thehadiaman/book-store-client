@@ -1,25 +1,27 @@
-import logo from './logo.svg';
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Container from '@mui/material/Container';
+import TopNavBar from "./components/topNavBar";
+import BookCard from "./components/common/bookCard";
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default function ResponsiveGrid() {
+    return (
+        <Box sx={{ flexGrow: 1 }}>
+            <TopNavBar/>
+            <Container>
+                <Grid container spacing={{ xs: 2, md: 3, lg: 3}} columns={{ xs: 12, sm: 12, md: 12, lg:12 }}>
+                    <BookCard/>
+                    <BookCard/>
+                    <BookCard/>
+                    <BookCard/>
+                    <BookCard/>
+                    <BookCard/>
+                    <BookCard/>
+                    <BookCard/>
+                </Grid>
+            </Container>
+        </Box>
+    );
 }
-
-export default App;
