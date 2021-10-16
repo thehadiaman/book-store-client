@@ -8,7 +8,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Button from "@mui/material/Button";
 import {Link} from "react-router-dom";
 
-export default function Drawer() {
+export default function Drawer({handleLinkChange}) {
     const [state, setState] = React.useState({
         left: false,
     });
@@ -30,7 +30,13 @@ export default function Drawer() {
         >
             <List>
                 <ListItem>
-                    <Button style={{width: "100%"}} component={Link} to={'/login'} startIcon={<LoginOutlinedIcon/>} color="inherit">Login</Button>
+                    <Button onClick={()=>handleLinkChange('/')} style={{width: "100%", fontSize: '30px'}} component={Link} to={'/'} color="inherit">BookStack</Button>
+                </ListItem>
+                <ListItem>
+                <Button onClick={()=>handleLinkChange('/login')} style={{width: "100%"}} component={Link} to={'/login'} startIcon={<LoginOutlinedIcon/>} color="inherit">Login</Button>
+            </ListItem>
+                <ListItem>
+                    <Button onClick={()=>handleLinkChange('/signup')} style={{width: "100%"}} component={Link} to={'/signup'} startIcon={<LoginOutlinedIcon/>} color="inherit">Signup</Button>
                 </ListItem>
             </List>
         </Box>

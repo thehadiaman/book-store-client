@@ -101,7 +101,7 @@ class TopNavBar extends Component {
                                 color="inherit"
                                 aria-label="menu"
                             >
-                                <Drawer/>
+                                <Drawer handleLinkChange={this.props.handleLinkChange}/>
                             </IconButton>
                         </Box>
                     </Toolbar>
