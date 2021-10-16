@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {FormControl, InputLabel, NativeSelect, TextField} from "@mui/material";
+import {FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import Joi from 'joi-browser';
 
 class Form extends Component {
@@ -40,14 +40,23 @@ class Form extends Component {
             <React.Fragment>
                 {inputs.map(input=>{
                     if(input.type === 'select'){
-                        return <FormControl key={input.name} fullWidth style={{marginBottom: '15px'}}>
-                            <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                                Type of customer
-                            </InputLabel>
-                            <NativeSelect>
-                                <option value={'buyer'}>Buyer</option>
-                                <option value={'seller'}>Seller</option>
-                            </NativeSelect>
+                        return <FormControl style={{marginBottom: '15px'}} fullWidth key={input.name} error={errors[input.name] !== undefined}>
+                            <InputLabel id="type">Type</InputLabel>
+                            <Select
+                                fullWidth
+                                labelId="type"
+                                name={input.name}
+                                value={this.state.inputs.find(i=>i.name===input.name).value}
+                                label="Type"
+                                onChange={this.handleChange}
+                                renderValue={value=>value}
+                            >
+                                <MenuItem value={'buyer'}>Buyer</MenuItem>
+                                <MenuItem value={'seller'}>Seller</MenuItem>
+                            </Select>
+                            {(errors[input.name] !== undefined) && (
+                                <FormHelperText>{errors[input.name]? errors[input.name]: ''}</FormHelperText>
+                            )}
                         </FormControl>
                     }
 

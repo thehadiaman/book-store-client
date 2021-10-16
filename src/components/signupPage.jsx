@@ -2,6 +2,7 @@ import React from "react";
 import {Button, Step, StepLabel, Stepper, Grid, Container, LinearProgress, Stack} from "@mui/material";
 import Form from "./common/form";
 import Joi from "joi-browser";
+import {saveUser} from "../services/userService";
 
 class SignupPage extends Form{
 
@@ -39,7 +40,7 @@ class SignupPage extends Form{
                 phone: Joi.string().min(8).max(13).required()
             },
             {
-                type: Joi.string().min(5).max(6).required().valid('seller', 'buyer'),
+                type: Joi.string().min(5).max(6).required().valid('seller', 'buyer').label('Type'),
                 password: Joi.string().min(8).max(50).required().label('Password')
             }
         ][this.state.activeStep]
@@ -59,18 +60,28 @@ class SignupPage extends Form{
                 type: this.state.inputs.filter(input => input.name === "type")[0].value,
                 password: this.state.inputs.filter(input => input.name === "password")[0].value
             }
-        ][this.state.activeStep];
+        ];
     }
 
     handleValidation = (data)=>{
         return Joi.validate(data, this.schema(), {abortEarly: false})['error'];
     }
 
+    getAllValues = ()=>{
+        const properties = ['name', 'email', 'address', 'phone', 'type', 'password'];
+        const values = {};
+        for(let a=0;a<properties.length;a++) {
+            values[properties[a]] = this.state.inputs.filter(input => input.name === properties[a])[0].value;
+        }
+        return values
+    }
+
     handleNext = ()=>{
         const prevStep = this.state.activeStep;
-        const error = this.handleValidation(this.getData());
+        const error = this.handleValidation(this.getData()[this.state.activeStep]);
         const errors = {};
         if(error) {
+            console.log(errors);
             for (let item of error.details)
                 errors[item.path[0]] = item.message;
             return this.setState({errors});
@@ -91,10 +102,16 @@ class SignupPage extends Form{
         this.setState({activeStep: prevStep-1});
     }
 
-    handleSubmit = (e)=>{
+    handleSubmit = async(e)=>{
         e.preventDefault();
+        console.log(this.getAllValues());
         this.handleNext();
-        console.log('Submitting');
+        try{
+            await saveUser(this.getAllValues())
+            this.props.history.replace('verification')
+        }catch (ex){
+            console.log(ex)
+        }
     }
 
     render() {
