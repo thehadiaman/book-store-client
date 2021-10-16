@@ -1,18 +1,10 @@
 import React, {Component} from "react";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import {IconButton} from "@mui/material";
+import {AppBar, Toolbar, Typography, Box, Button, IconButton, InputBase} from "@mui/material";
 import { styled, alpha } from '@mui/material/styles';
-import SearchIcon from '@mui/icons-material/Search';
-import InputBase from '@mui/material/InputBase';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import Settings from '@mui/icons-material/Settings';
-import Signup from '@mui/icons-material/OpenInBrowserOutlined';
+import {Search as SearchIcon, AccountCircle as AccountCircleIcon, Settings, OpenInBrowserOutlined as Signup} from '@mui/icons-material';
 import ModalForm from "./common/modal";
 import Drawer from "./common/drawer";
+import {Link} from "react-router-dom";
 
 
 class TopNavBar extends Component {
@@ -68,7 +60,7 @@ class TopNavBar extends Component {
 
         const LoginFalseNavBarMenu = <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <ModalForm />
-            <Button startIcon={<Signup/>} color="inherit">Signup</Button>
+            <Button startIcon={<Signup/>} component={Link} to={'/signup'} color="inherit">Signup</Button>
         </Box>;
 
         const LoginTrueNavBarMenu = <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
@@ -84,7 +76,7 @@ class TopNavBar extends Component {
             <Box sx={{ flexGrow: 1 }} style={{marginBottom: '10px'}}>
                 <AppBar position="static">
                     <Toolbar>
-                        <Typography className={'nav-head'} variant={"h6"} component={"div"} sx={{ flexGrow: 1 }} onClick={()=>{window.location='/'}}>
+                        <Typography className={'nav-head'} variant={"h6"} component={"div"} sx={{ flexGrow: 1 }} onClick={()=>{window.location = "/"}}>
                             BookStack
                         </Typography>
 

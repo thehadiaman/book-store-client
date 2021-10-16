@@ -1,6 +1,6 @@
 import React from "react";
 import Form from "./common/form";
-import {Button, Container} from "@mui/material";
+import {Button, Container, Grid} from "@mui/material";
 import {Link} from "react-router-dom";
 import Joi from 'joi-browser';
 
@@ -45,7 +45,15 @@ class LoginPage extends Form {
 
         return (
             <Container>
-                {this.renderForm('Login', this.state.inputs, extra)}
+                <form onSubmit={this.handleSubmit} method={'POST'} action={'/'}>
+                    <Grid container spacing={{ xs: 2, md: 3, lg: 3}} columns={{ xs: 12, sm: 12, md: 12, lg:12 }}>
+                        <Grid item xs={12} sm={3} md={3} lg={4}/>
+                        <Grid className={'special-form'} item xs={12} sm={12} md={12} lg={4}>
+                            <h1>Login</h1>
+                            {this.renderInputs(this.state.inputs, extra)}
+                        </Grid>
+                    </Grid>
+                </form>
             </Container>
         );
     }

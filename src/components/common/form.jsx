@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Grid, TextField} from "@mui/material";
+import {FormControl, InputLabel, NativeSelect, TextField} from "@mui/material";
 import Joi from 'joi-browser';
 
 class Form extends Component {
@@ -34,30 +34,39 @@ class Form extends Component {
         this.setState({inputs, errors});
     }
 
-    renderForm = (label, inputs, extra)=>{
+    renderInputs = (inputs, extra)=>{
         const {errors} = this.state;
         return (
-            <form onSubmit={this.handleSubmit} method={'POST'} action={'/'}>
-                <Grid container spacing={{ xs: 2, md: 3, lg: 3}} columns={{ xs: 12, sm: 12, md: 12, lg:12 }}>
-                    <Grid item xs={12} sm={3} md={3} lg={4}/>
-                    <Grid className={'special-form'} item xs={12} sm={12} md={12} lg={4}>
-                        <h1>{label}</h1>
-                        {inputs.map(input=><TextField
-                            key={input.name}
-                            required={true}
-                            fullWidth={true}
-                            name={input.name}
-                            error={errors[input.name] !== undefined}
-                            helperText={errors[input.name]? errors[input.name]: ''}
-                            type={input.type}
-                            label={input.placeholder}
-                            style={{marginBottom: '15px'}}
-                            onChange={this.handleChange}
-                        />)}
-                        {extra}
-                    </Grid>
-                </Grid>
-            </form>
+            <React.Fragment>
+                {inputs.map(input=>{
+                    if(input.type === 'select'){
+                        return <FormControl key={input.name} fullWidth style={{marginBottom: '15px'}}>
+                            <InputLabel variant="standard" htmlFor="uncontrolled-native">
+                                Type of customer
+                            </InputLabel>
+                            <NativeSelect>
+                                <option value={'buyer'}>Buyer</option>
+                                <option value={'seller'}>Seller</option>
+                            </NativeSelect>
+                        </FormControl>
+                    }
+
+                    return <TextField
+                        key={input.name}
+                        required={true}
+                        fullWidth={true}
+                        name={input.name}
+                        error={errors[input.name] !== undefined}
+                        helperText={errors[input.name]? errors[input.name]: ''}
+                        type={input.type}
+                        value={this.state.inputs.find(i=>i.name===input.name).value}
+                        label={input.placeholder}
+                        title={input.placeholder}
+                        style={{marginBottom: '15px'}}
+                        onChange={this.handleChange}
+                    />})}
+                {extra}
+            </React.Fragment>
         );
     }
 }
