@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {AppBar, Toolbar, Typography, Box, Button, IconButton, InputBase} from "@mui/material";
 import { styled, alpha } from '@mui/material/styles';
 import {Search as SearchIcon, AccountCircle as AccountCircleIcon, Settings, OpenInBrowserOutlined as Signup} from '@mui/icons-material';
-import ModalForm from "./common/modal";
+import ModalForm from "./modalLogin";
 import Drawer from "./common/drawer";
 import {Link} from "react-router-dom";
 
@@ -17,6 +17,7 @@ class TopNavBar extends Component {
     handleSearch = (input)=>{
         console.log(input.target.value);
     }
+
     render() {
 
         const {login} = this.state;
@@ -59,8 +60,8 @@ class TopNavBar extends Component {
         }));
 
         const LoginFalseNavBarMenu = <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <ModalForm />
-            <Button startIcon={<Signup/>} component={Link} to={'/signup'} color="inherit">Signup</Button>
+            <ModalForm handleLinkChange={this.props.handleLinkChange}/>
+            <Button onClick={()=>this.props.handleLinkChange('/signup')} startIcon={<Signup/>} component={Link} to={'/signup'} color="inherit">Signup</Button>
         </Box>;
 
         const LoginTrueNavBarMenu = <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
@@ -76,11 +77,11 @@ class TopNavBar extends Component {
             <Box sx={{ flexGrow: 1 }} style={{marginBottom: '10px'}}>
                 <AppBar position="static">
                     <Toolbar>
-                        <Typography className={'nav-head'} variant={"h6"} component={"div"} sx={{ flexGrow: 1 }} onClick={()=>{window.location = "/"}}>
-                            BookStack
+                        <Typography onClick={()=>this.props.handleLinkChange('/')} className={'nav-head'} variant={"h6"} component={"div"} sx={{ flexGrow: 1 }}>
+                            <Link to={'/'} style={{textDecoration: 'none', color: 'white'}}>BookStack</Link>
                         </Typography>
 
-                        {!['/login', '/signup'].includes(window.location.pathname) && <Search component={"div"} sx={{flexGrow: 1}}>
+                        {!['/login', '/signup'].includes(this.props.currentLink) && <Search component={"div"} sx={{flexGrow: 1}}>
                             <SearchIconWrapper>
                                 <SearchIcon/>
                             </SearchIconWrapper>

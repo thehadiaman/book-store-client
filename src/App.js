@@ -8,14 +8,23 @@ import TopNavBar from "./components/topNavBar";
 import SignupPage from "./components/signupPage";
 
 class App extends Component{
+
+    state={
+        currentLink: window.location.pathname
+    }
+
+    handleLinkChange = (link)=>{
+        this.setState({currentLink: link});
+    }
+
     render() {
         return (
             <BrowserRouter>
                 <Box sx={{ flexGrow: 1 }}>
-                    <TopNavBar {...this.props} />
+                    <TopNavBar handleLinkChange={this.handleLinkChange} currentLink={this.state.currentLink}/>
                     <Switch>
-                        <Route exact path={'/login'} render={()=><LoginPage/>}/>
-                        <Route exact path={'/signup'} render={()=><SignupPage/>}/>
+                        <Route exact path={'/login'} render={(props)=><LoginPage handleLinkChange={this.handleLinkChange} {...props}/>}/>
+                        <Route exact path={'/signup'} render={(props)=><SignupPage handleLinkChange={this.handleLinkChange} {...props}/>}/>
                         <Route path={'/'} render={()=><HomePage/>}/>
                     </Switch>
                 </Box>
