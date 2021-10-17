@@ -8,7 +8,8 @@ import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 import Form from "./common/form";
 import {Grid} from "@mui/material";
 import {Link} from "react-router-dom";
-
+import Joi from 'joi-browser';
+import {loginUser} from "../services/authService";
 
 class ModalLogin extends Form {
 
@@ -25,8 +26,36 @@ class ModalLogin extends Form {
         this.setState({open: true})
     }
 
+    getData = ()=>{
+        const inputs = this.state.inputs;
+        const data = {};
+        const properties = ['email', 'password'];
+
+        for(let a=0;a<properties.length;a++){
+            data[properties[a]] = inputs.find(input=>input.name===properties[a]).value;
+        }
+        return data
+    }
+
     handleClose=()=>{
         this.setState({open: false})
+    }
+
+    schema = {
+        email: Joi.string().min(8).max(50).email().required(),
+        password: Joi.string().min(8).max(50).required()
+    }
+
+    doSubmit = async(e)=>{
+        try{
+            const data = (await loginUser(this.getData()));
+            localStorage.setItem('jwtToken', data.headers['x-auth-token']);
+            window.location = '/';
+        }catch (ex){
+            const errors = {};
+            errors.email = ex.response.data
+            this.setState({errors});
+        }
     }
 
     render() {

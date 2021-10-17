@@ -37,7 +37,7 @@ class SignupPage extends Form{
             },
             {
                 address: Joi.string().min(6).max(60).required().label('Address'),
-                phone: Joi.string().min(8).max(13).required()
+                phone: Joi.number().min(10000000).max(9999999999999).required()
             },
             {
                 type: Joi.string().min(5).max(6).required().valid('seller', 'buyer').label('Type'),
@@ -103,12 +103,15 @@ class SignupPage extends Form{
     }
 
     handleSubmit = async(e)=>{
+        const {handleLinkChange, handleLogin} = this.props;
         e.preventDefault();
-        console.log(this.getAllValues());
         this.handleNext();
         try{
-            await saveUser(this.getAllValues())
-            this.props.history.replace('verification')
+            const data = (await saveUser(this.getAllValues()));
+            localStorage.setItem('jwtToken', data.headers['x-auth-token']);
+            handleLinkChange('/verification');
+            handleLogin();
+            window.location = '/verification';
         }catch (ex){
             console.log(ex)
         }

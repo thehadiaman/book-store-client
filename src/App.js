@@ -6,25 +6,41 @@ import './App.css';
 import {Box} from "@mui/material";
 import TopNavBar from "./components/topNavBar";
 import SignupPage from "./components/signupPage";
+import VerificationPage from "./components/verificationPage";
 
 class App extends Component{
 
     state={
-        currentLink: window.location.pathname
+        currentLink: window.location.pathname,
+        login: false
     }
+
+
+    componentDidMount() {
+        const user = localStorage.getItem('jwtToken');
+        if(user !== null) return this.setState({login: true});
+    }
+
 
     handleLinkChange = (link)=>{
         this.setState({currentLink: link});
     }
 
+    handleLogin = ()=>{
+        this.setState({login: true})
+    }
+
+
     render() {
+        console.log(this.state.login);
         return (
             <BrowserRouter>
                 <Box sx={{ flexGrow: 1 }}>
-                    <TopNavBar handleLinkChange={this.handleLinkChange} currentLink={this.state.currentLink}/>
+                    <TopNavBar handleLinkChange={this.handleLinkChange} login={this.state.login} currentLink={this.state.currentLink}/>
                     <Switch>
                         <Route exact path={'/login'} render={(props)=><LoginPage handleLinkChange={this.handleLinkChange} {...props}/>}/>
-                        <Route exact path={'/signup'} render={(props)=><SignupPage handleLinkChange={this.handleLinkChange} {...props}/>}/>
+                        <Route exact path={'/signup'} render={(props)=><SignupPage handleLogin={this.handleLogin} handleLinkChange={this.handleLinkChange} {...props}/>}/>
+                        <Route exact path={'/verification'} render={(props)=><VerificationPage handleLinkChange={this.handleLinkChange} {...props}/>}/>
                         <Route path={'/'} render={()=><HomePage/>}/>
                     </Switch>
                 </Box>

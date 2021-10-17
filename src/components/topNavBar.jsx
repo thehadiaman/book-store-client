@@ -1,7 +1,7 @@
 import React, {Component} from "react";
-import {AppBar, Toolbar, Typography, Box, Button, IconButton, InputBase} from "@mui/material";
+import {AppBar, Toolbar, Typography, Box, Button, IconButton, InputBase, Grid, Badge} from "@mui/material";
 import { styled, alpha } from '@mui/material/styles';
-import {Search as SearchIcon, AccountCircle as AccountCircleIcon, Settings, OpenInBrowserOutlined as Signup} from '@mui/icons-material';
+import {Search as SearchIcon, AccountCircle as AccountCircleIcon, ShoppingCart, OpenInBrowserOutlined as Signup} from '@mui/icons-material';
 import ModalForm from "./modalLogin";
 import Drawer from "./common/drawer";
 import {Link} from "react-router-dom";
@@ -10,8 +10,7 @@ import {Link} from "react-router-dom";
 class TopNavBar extends Component {
 
     state={
-        searchInput: '',
-        login: false
+        searchInput: ''
     };
 
     handleSearch = (input)=>{
@@ -20,7 +19,7 @@ class TopNavBar extends Component {
 
     render() {
 
-        const {login} = this.state;
+        const {login} = this.props;
 
         const StyledInputBase = styled(InputBase)(({ theme }) => ({
             color: 'inherit',
@@ -45,7 +44,7 @@ class TopNavBar extends Component {
             marginLeft: 10,
             [theme.breakpoints.up('sm')]: {
                 marginLeft: theme.spacing(2),
-                width: '100%',
+                width: '80%',
             },
         }));
 
@@ -64,13 +63,21 @@ class TopNavBar extends Component {
             <Button onClick={()=>this.props.handleLinkChange('/signup')} startIcon={<Signup/>} component={Link} to={'/signup'} color="inherit">Signup</Button>
         </Box>;
 
-        const LoginTrueNavBarMenu = <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton aria-label="delete" size="large">
-                <Settings style={{color: 'white'}} />
-            </IconButton>
-            <IconButton aria-label="delete" size="large">
-                <AccountCircleIcon style={{color: 'white'}} />
-            </IconButton>
+        const LoginTrueNavBarMenu = <Box>
+            <Grid container columns={{xs: 12}}>
+                <Grid item xs={6}>
+                    <IconButton size="large">
+                        <Badge badgeContent={0} color="error">
+                            <ShoppingCart style={{color: 'white'}} />
+                        </Badge>
+                    </IconButton>
+                </Grid>
+                <Grid item xs={6}>
+                    <IconButton size="large">
+                        <AccountCircleIcon style={{color: 'white'}} />
+                    </IconButton>
+                </Grid>
+            </Grid>
         </Box>;
 
         return (
@@ -78,10 +85,11 @@ class TopNavBar extends Component {
                 <AppBar position="static">
                     <Toolbar>
                         <Typography onClick={()=>this.props.handleLinkChange('/')} className={'nav-head'} variant={"h6"} component={"div"} sx={{ flexGrow: 1 }}>
-                            <Link to={'/'} style={{textDecoration: 'none', color: 'white'}}>BookStack</Link>
+                            <Box sx={{ display: { xs: 'none', lg: 'block', xl: 'none' } }}><Link to={'/'} style={{textDecoration: 'none', color: 'white'}}>BookStack</Link></Box>
+                            <Box sx={{ display: { xs: 'block', lg: 'none', xl: 'block' } }}><Link to={'/'} style={{textDecoration: 'none', color: 'white'}}>BS</Link></Box>
                         </Typography>
 
-                        {!['/login', '/signup'].includes(this.props.currentLink) && <Search component={"div"} sx={{flexGrow: 1}}>
+                        {!['/login', '/signup', '/verification'].includes(this.props.currentLink) && <Search component={"div"} sx={{flexGrow: 1}}>
                             <SearchIconWrapper>
                                 <SearchIcon/>
                             </SearchIconWrapper>
@@ -94,7 +102,7 @@ class TopNavBar extends Component {
 
                         {login? LoginTrueNavBarMenu: LoginFalseNavBarMenu}
 
-                        <Box sx={{ display: { xs: 'block', lg: 'none', md: 'none', xl: 'block' } }}>
+                        {!login && <Box sx={{display: {xs: "block", lg: "none", md: "none", xl: "block"}}}>
                             <IconButton
                                 size="large"
                                 edge="start"
@@ -103,7 +111,7 @@ class TopNavBar extends Component {
                             >
                                 <Drawer handleLinkChange={this.props.handleLinkChange}/>
                             </IconButton>
-                        </Box>
+                        </Box>}
                     </Toolbar>
                 </AppBar>
             </Box>
