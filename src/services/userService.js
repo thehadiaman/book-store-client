@@ -11,3 +11,7 @@ export function saveUser(body){
 export function verifyUser(body){
     return http.put(`${apiEndPoint}/verify`, {code: body.verificationCode});
 }
+
+export function checkEmail(email){
+    return http.get(`${apiEndPoint}/checkemail/${email}`)
+}

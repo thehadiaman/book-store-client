@@ -32,7 +32,6 @@ class App extends Component{
 
 
     render() {
-        console.log(this.state.login);
         return (
             <BrowserRouter>
                 <Box sx={{ flexGrow: 1 }}>

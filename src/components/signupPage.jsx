@@ -2,7 +2,7 @@ import React from "react";
 import {Button, Step, StepLabel, Stepper, Grid, Container, LinearProgress, Stack} from "@mui/material";
 import Form from "./common/form";
 import Joi from "joi-browser";
-import {saveUser} from "../services/userService";
+import {checkEmail, saveUser} from "../services/userService";
 
 class SignupPage extends Form{
 
@@ -76,7 +76,7 @@ class SignupPage extends Form{
         return values
     }
 
-    handleNext = ()=>{
+    handleNext = async()=>{
         const prevStep = this.state.activeStep;
         const error = this.handleValidation(this.getData()[this.state.activeStep]);
         const errors = {};
@@ -84,9 +84,19 @@ class SignupPage extends Form{
             console.log(errors);
             for (let item of error.details)
                 errors[item.path[0]] = item.message;
-            return this.setState({errors});
+            this.setState({errors});
         }else{
-            this.setState({activeStep: prevStep+1})
+            if(this.getData()[this.state.activeStep].email){
+                const emailCheck = (await checkEmail(this.getData()[this.state.activeStep].email)).data;
+                if(!emailCheck){
+                    errors.email = 'This email is already in use.';
+                    return this.setState({errors});
+                }else{
+                    this.setState({activeStep: prevStep+1})
+                }
+            }else{
+                this.setState({activeStep: prevStep+1})
+            }
         }
     }
 
@@ -105,7 +115,7 @@ class SignupPage extends Form{
     handleSubmit = async(e)=>{
         const {handleLinkChange, handleLogin} = this.props;
         e.preventDefault();
-        this.handleNext();
+        await this.handleNext();
         try{
             const data = (await saveUser(this.getAllValues()));
             localStorage.setItem('jwtToken', data.headers['x-auth-token']);

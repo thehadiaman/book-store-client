@@ -17,6 +17,7 @@ class VerificationPage extends Form {
         try{
             const data = (await verifyUser(this.getData()));
             localStorage.setItem('jwtToken', data.headers['x-auth-token']);
+            this.props.handleLinkChange('/')
             this.props.history.replace('/');
         }catch(ex){
             const errors = {};

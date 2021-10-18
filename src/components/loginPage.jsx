@@ -3,6 +3,7 @@ import Form from "./common/form";
 import {Button, Container, Grid} from "@mui/material";
 import {Link} from "react-router-dom";
 import Joi from 'joi-browser';
+import {loginUser} from "../services/authService";
 
 class LoginPage extends Form {
 
@@ -14,8 +15,16 @@ class LoginPage extends Form {
         errors: {}
     }
 
-    doSubmit = ()=>{
-        console.log('Submitting');
+    doSubmit = async()=>{
+        try{
+            const data = (await loginUser(this.getData()));
+            localStorage.setItem('jwtToken', data.headers['x-auth-token']);
+            window.location = '/';
+        }catch (ex){
+            const errors = {};
+            errors.email = ex.response.data
+            this.setState({errors});
+        }
     }
 
     schema = {
