@@ -70,8 +70,6 @@ class ModalLogin extends Form {
             p: 4,
         };
 
-        const {errors} = this.state;
-        const disableCondition = errors.hasOwnProperty('email') || errors.hasOwnProperty('password');
         const extra = <div>
             <span onClick={()=>{
                 this.props.handleLinkChange('/signup')
@@ -79,7 +77,7 @@ class ModalLogin extends Form {
             }}>
                 <Link className={'link-x'} to={'/signup'}>Don't have an account? Sign Up</Link>
             </span>
-            <Button variant={'contained'} type={'Submit'} disabled={disableCondition} color={'primary'} style={{float: 'right'}}>Login</Button>
+            <Button variant={'contained'} type={'Submit'} color={'primary'} style={{float: 'right'}}>Login</Button>
             <br/>
             <br/>
             <span onClick={()=>{

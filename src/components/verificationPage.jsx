@@ -2,7 +2,8 @@ import React from "react";
 import Form from "./common/form";
 import {Button, Container, Grid} from "@mui/material";
 import Joi from 'joi-browser';
-import {verifyUser} from "../services/userService";
+import {getNewVerificationCode, verifyUser} from "../services/userService";
+import Snack from "./common/snack";
 
 class VerificationPage extends Form {
 
@@ -10,7 +11,9 @@ class VerificationPage extends Form {
         inputs:[
             {name: 'verificationCode', type: 'text', placeholder: 'Verification Code', value: ''}
         ],
-        errors: {}
+        errors: {},
+        snackState: false,
+        newCode: ''
     }
 
     doSubmit = async()=>{
@@ -36,9 +39,27 @@ class VerificationPage extends Form {
         }
     }
 
+    handleNewVerificationCode = async()=>{
+        try {
+            const data = (await getNewVerificationCode()).data
+            this.setState({newCode: data, snackState: true});
+        }catch (ex) {
+            const errors = {newCodeError: ex.response.data};
+            this.setState({errors, snackState: true})
+        }
+    }
+
+    handleSnackClose = ()=>{
+        this.setState({snackState: false})
+    }
+
+
     render() {
         document.title = 'Verification';
-        const extra = <Button variant={'contained'} type={'Submit'} color={'primary'} style={{float: 'right'}}>Submit</Button>;
+        const extra = <div>
+            <span className={"link-x"} onClick={this.handleNewVerificationCode} style={{textDecoration: "underline", cursor: "pointer"}}>Didn't receive email ?.</span>
+            <Button variant={'contained'} type={'Submit'} color={'primary'} style={{float: 'right'}}>Submit</Button>
+        </div>;
 
         return (
             <Container>
@@ -51,6 +72,8 @@ class VerificationPage extends Form {
                         </Grid>
                     </Grid>
                 </form>
+                {this.state.snackState && this.state.errors.newCodeError && <Snack severity={"error"} handleSnackClose={this.handleSnackClose} snackState={this.state.snackState} snackMessage={this.state.errors.newCodeError}/>}
+                {this.state.snackState && !this.state.errors.newCodeError && <Snack severity={"success"} handleSnackClose={this.handleSnackClose} snackState={this.state.snackState} snackMessage={this.state.newCode}/>}
             </Container>
         );
     }

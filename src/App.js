@@ -7,18 +7,24 @@ import {Box} from "@mui/material";
 import TopNavBar from "./components/topNavBar";
 import SignupPage from "./components/signupPage";
 import VerificationPage from "./components/verificationPage";
+import {authUser} from "./services/authService";
+import ForgetPasswordPage from "./components/forgetPasswordPage";
 
 class App extends Component{
 
     state={
         currentLink: window.location.pathname,
-        login: false
+        login: false,
+        user: {}
     }
 
 
-    componentDidMount() {
-        const user = localStorage.getItem('jwtToken');
-        if(user !== null) return this.setState({login: true});
+    async componentDidMount() {
+        try{
+            const jwt = localStorage.getItem('jwtToken');
+            const user = (await authUser()).data;
+            if(jwt !== null) return this.setState({login: true, user});
+        }catch {}
     }
 
 
@@ -35,12 +41,13 @@ class App extends Component{
         return (
             <BrowserRouter>
                 <Box sx={{ flexGrow: 1 }}>
-                    <TopNavBar handleLinkChange={this.handleLinkChange} login={this.state.login} currentLink={this.state.currentLink}/>
+                    <TopNavBar handleLinkChange={this.handleLinkChange} {...this.state}/>
                     <Switch>
-                        <Route exact path={'/login'} render={(props)=><LoginPage handleLinkChange={this.handleLinkChange} {...props}/>}/>
+                        <Route exact path={'/login'} render={(props)=><LoginPage  handleLinkChange={this.handleLinkChange} {...props}/>}/>
                         <Route exact path={'/signup'} render={(props)=><SignupPage handleLogin={this.handleLogin} handleLinkChange={this.handleLinkChange} {...props}/>}/>
+                        <Route exact path={'/forgetpassword'} render={(props)=><ForgetPasswordPage handleLinkChange={this.handleLinkChange} {...props}/>}/>
                         <Route exact path={'/verification'} render={(props)=><VerificationPage handleLinkChange={this.handleLinkChange} {...props}/>}/>
-                        <Route path={'/'} render={()=><HomePage/>}/>
+                        <Route path={'/'} render={(props)=><HomePage {...props} />}/>
                     </Switch>
                 </Box>
             </BrowserRouter>

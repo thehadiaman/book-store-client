@@ -41,11 +41,9 @@ class LoginPage extends Form {
 
     render() {
         document.title = 'Login';
-        const {errors} = this.state;
-        const disableCondition = errors.hasOwnProperty('email') || errors.hasOwnProperty('password');
         const extra = <div>
             <Link className={'link-x'} to={'/signup'}>Don't have an account? Sign Up</Link>
-            <Button variant={'contained'} type={'Submit'} disabled={disableCondition} color={'primary'} style={{float: 'right'}}>Login</Button>
+            <Button variant={'contained'} type={'Submit'} color={'primary'} style={{float: 'right'}}>Login</Button>
             <br/>
             <br/>
             <Link className={'link-x'} to={'/forgetpassword'}>Forgot password?

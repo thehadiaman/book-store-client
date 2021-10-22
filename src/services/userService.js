@@ -13,5 +13,17 @@ export function verifyUser(body){
 }
 
 export function checkEmail(email){
-    return http.get(`${apiEndPoint}/checkemail/${email}`)
+    return http.get(`${apiEndPoint}/checkemail/${email}`);
+}
+
+export function getNewVerificationCode(){
+    return http.get(`${apiEndPoint}/getverificationcode`);
+}
+
+export function forgetPassword(email){
+    return http.put(`${apiEndPoint}/forgetpassword`, {email: email});
+}
+
+export function resetPassword(body){
+    return http.put(`${apiEndPoint}/resetpassword`, {email: body.email, code: body.code, password: body.password});
 }
