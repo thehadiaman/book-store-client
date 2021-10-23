@@ -113,14 +113,11 @@ class SignupPage extends Form{
     }
 
     handleSubmit = async(e)=>{
-        const {handleLinkChange, handleLogin} = this.props;
         e.preventDefault();
         await this.handleNext();
         try{
             const data = (await saveUser(this.getAllValues()));
             localStorage.setItem('jwtToken', data.headers['x-auth-token']);
-            handleLinkChange('/verification');
-            handleLogin();
             window.location = '/verification';
         }catch (ex){
             console.log(ex)

@@ -9,6 +9,7 @@ import SignupPage from "./components/signupPage";
 import VerificationPage from "./components/verificationPage";
 import {authUser} from "./services/authService";
 import ForgetPasswordPage from "./components/forgetPasswordPage";
+import SellerPage from "./components/SellerPage";
 
 class App extends Component{
 
@@ -20,11 +21,17 @@ class App extends Component{
 
 
     async componentDidMount() {
+        await this.setUser();
+    }
+
+    setUser = async ()=>{
         try{
             const jwt = localStorage.getItem('jwtToken');
             const user = (await authUser()).data;
             if(jwt !== null) return this.setState({login: true, user});
-        }catch {}
+        }catch {
+            localStorage.removeItem('jwtToken');
+        }
     }
 
 
@@ -43,10 +50,11 @@ class App extends Component{
                 <Box sx={{ flexGrow: 1 }}>
                     <TopNavBar handleLinkChange={this.handleLinkChange} {...this.state}/>
                     <Switch>
-                        <Route exact path={'/login'} render={(props)=><LoginPage  handleLinkChange={this.handleLinkChange} {...props}/>}/>
-                        <Route exact path={'/signup'} render={(props)=><SignupPage handleLogin={this.handleLogin} handleLinkChange={this.handleLinkChange} {...props}/>}/>
-                        <Route exact path={'/forgetpassword'} render={(props)=><ForgetPasswordPage handleLinkChange={this.handleLinkChange} {...props}/>}/>
-                        <Route exact path={'/verification'} render={(props)=><VerificationPage handleLinkChange={this.handleLinkChange} {...props}/>}/>
+                        <Route exact path={'/login'} render={(props)=><LoginPage handleLinkChange={this.handleLinkChange} {...props}/>}/>
+                        <Route exact path={'/signup'} render={(props)=><SignupPage {...props}/>}/>
+                        <Route exact path={'/forgetpassword'} render={(props)=><ForgetPasswordPage handleLogin={this.handleLogin} handleLinkChange={this.handleLinkChange} {...props}/>}/>
+                        <Route exact path={'/verification'} render={(props)=><VerificationPage {...props}/>}/>
+                        <Route exact path={'/sellercenter'} render={(props)=><SellerPage {...props}/>}/>
                         <Route path={'/'} render={(props)=><HomePage {...props} />}/>
                     </Switch>
                 </Box>

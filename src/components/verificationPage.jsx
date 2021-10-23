@@ -12,16 +12,14 @@ class VerificationPage extends Form {
             {name: 'verificationCode', type: 'text', placeholder: 'Verification Code', value: ''}
         ],
         errors: {},
-        snackState: false,
-        newCode: ''
+        snackState: false
     }
 
     doSubmit = async()=>{
         try{
             const data = (await verifyUser(this.getData()));
             localStorage.setItem('jwtToken', data.headers['x-auth-token']);
-            this.props.handleLinkChange('/')
-            this.props.history.replace('/');
+            window.location = '/'
         }catch(ex){
             const errors = {};
             errors.verificationCode = ex.response.data;
@@ -41,21 +39,22 @@ class VerificationPage extends Form {
 
     handleNewVerificationCode = async()=>{
         try {
-            const data = (await getNewVerificationCode()).data
-            this.setState({newCode: data, snackState: true});
+            const data = (await getNewVerificationCode()).data;
+            const errors = {newCode: data}
+            this.setState({errors, snackState: true});
         }catch (ex) {
             const errors = {newCodeError: ex.response.data};
-            this.setState({errors, snackState: true})
+            this.setState({errors, snackState: true});
         }
     }
 
     handleSnackClose = ()=>{
-        this.setState({snackState: false})
+        this.setState({snackState: false, errors: {}});
     }
-
 
     render() {
         document.title = 'Verification';
+        const {inputs, snackState, errors} = this.state;
         const extra = <div>
             <span className={"link-x"} onClick={this.handleNewVerificationCode} style={{textDecoration: "underline", cursor: "pointer"}}>Didn't receive email ?.</span>
             <Button variant={'contained'} type={'Submit'} color={'primary'} style={{float: 'right'}}>Submit</Button>
@@ -68,12 +67,11 @@ class VerificationPage extends Form {
                         <Grid item xs={12} sm={2} md={2} lg={4}/>
                         <Grid className={'special-form'} item xs={12} sm={8} md={8} lg={4}>
                             <h1>Verification</h1>
-                            {this.renderInputs(this.state.inputs, extra)}
+                            {this.renderInputs(inputs, extra)}
                         </Grid>
                     </Grid>
                 </form>
-                {this.state.snackState && this.state.errors.newCodeError && <Snack severity={"error"} handleSnackClose={this.handleSnackClose} snackState={this.state.snackState} snackMessage={this.state.errors.newCodeError}/>}
-                {this.state.snackState && !this.state.errors.newCodeError && <Snack severity={"success"} handleSnackClose={this.handleSnackClose} snackState={this.state.snackState} snackMessage={this.state.newCode}/>}
+                {snackState && (errors.newCodeError || errors.newCode) && <Snack severity={errors.newCodeError? "error": "success"} handleSnackClose={this.handleSnackClose} snackState={snackState} snackMessage={errors.newCodeError || errors.newCode}/>}
             </Container>
         );
     }

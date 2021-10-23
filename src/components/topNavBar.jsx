@@ -71,21 +71,24 @@ class TopNavBar extends Component {
 
         const LoginTrueNavBarMenu = <Box>
             <Grid container columns={{xs: 12}}>
-                {this.props.user.type==='seller' && <Grid item xs={4}>
-                    <IconButton size='large'>
-                        <Badge badgeContent={0} color='error'>
-                            <SellIcon fontSize={'medium'} style={{color: 'white'}} />
-                        </Badge>
-                    </IconButton>
+                {(this.props.user.type==='seller' && this.props.user.validate.valid) && <Grid item xs={4}>
+                    <Link to={'/sellercenter'}>
+                        <IconButton size='large'>
+                            <Badge badgeContent={0} color='error'>
+                                <SellIcon fontSize={'medium'} style={{color: 'white'}} />
+                            </Badge>
+                        </IconButton>
+                    </Link>
+
                 </Grid>}
-                <Grid item xs={this.props.user.type==='seller'? 4: 6}>
+                <Grid item xs={(this.props.user.type==='seller' && this.props.user.validate.valid) ? 4: 6}>
                     <IconButton size='large'>
                         <Badge badgeContent={10} color='error'>
                             <ShoppingCart fontSize={'medium'} style={{color: 'white'}} />
                         </Badge>
                     </IconButton>
                 </Grid>
-                <Grid item xs={this.props.user.type==='seller'? 4: 6}>
+                <Grid item xs={(this.props.user.type==='seller' && this.props.user.validate.valid)? 4: 6}>
                     <DropDownMenu user={this.props.user} menu={this.state.menu}/>
                 </Grid>
             </Grid>
