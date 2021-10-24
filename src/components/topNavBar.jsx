@@ -104,7 +104,8 @@ class TopNavBar extends Component {
                             <Box sx={{ display: { xs: 'block', lg: 'none', xl: 'block' } }}><Link to={'/'} style={{textDecoration: 'none', color: 'white'}}>BS</Link></Box>
                         </Typography>
 
-                        {!['/login', '/signup', '/verification', '/forgetpassword'].includes(this.props.currentLink) && <Search component={'div'} sx={{flexGrow: 1}}>
+                        {!['/login', '/signup', '/verification', '/forgetpassword', '/sellercenter',
+                            '/sellercenter/new'].includes(this.props.currentLink) && <Search component={'div'} sx={{flexGrow: 1}}>
                             <SearchIconWrapper>
                                 <SearchIcon/>
                             </SearchIconWrapper>

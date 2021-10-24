@@ -22,3 +22,8 @@
 .nav-head{
   cursor: pointer;
 }
+
+.rating-text{
+  position: relative;
+  bottom: 7px;
+}

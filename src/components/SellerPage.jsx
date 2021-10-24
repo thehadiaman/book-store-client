@@ -38,17 +38,18 @@ class SellerPage extends Component {
             },
         ],
         data: [
-            { id: 1, title: 'A Brief History of Time', author: 'Stephen Hawking', price: 200, rating: 4.8, sales: 500  },
-            { id: 2, title: 'Atomic Habit', author: 'James Clear', price: 150, rating: 4.2, sales: 444}
-        ]
+            { id: 1, title: 'A Brief History of Time', authors: ['Stephen Hawking'], price: 200, rating: 4.8, sales: 500  },
+            { id: 2, title: 'Atomic Habit', authors: ['James Clear'], price: 150, rating: 4.2, sales: 444},
+            {id: 3, authors: ['George Paul Sutton', 'Oscar Biblarz'],title: 'Rocket Propulsion Elements', price: 10000, rating: 3.7, sales: 10}
+        ],
+        newObjectLink: '/sellercenter/new'
     }
 
     render() {
-        const {headCells, data} = this.state;
         return (
             <Container>
                 <h1>Seller Page</h1>
-                <TableComponent headCells={headCells} data={data} />
+                <TableComponent {...this.state} />
             </Container>
         );
     }

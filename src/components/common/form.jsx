@@ -17,6 +17,7 @@ class Form extends Component {
         if(error) {
             for (let item of error.details)
                 errors[item.path[0]] = item.message;
+            console.log(errors);
             return this.setState({errors});
         }
         this.setState({errors});
@@ -67,7 +68,9 @@ class Form extends Component {
                         name={input.name}
                         error={errors[input.name] !== undefined}
                         helperText={errors[input.name]? errors[input.name]: ''}
-                        type={input.type}
+                        multiline={input.type==="multiline"}
+                        rows={input.type==="multiline"? 5: 0}
+                        type={input.type==="multiline"? 'text': input.type}
                         value={this.state.inputs.find(i=>i.name===input.name).value}
                         label={input.placeholder}
                         title={input.placeholder}

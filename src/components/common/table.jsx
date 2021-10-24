@@ -5,13 +5,14 @@ import {Box, Table, TableBody, TableContainer, TableCell, TableHead, TablePagina
     Typography, Paper, Checkbox, IconButton, Tooltip} from '@mui/material';
 import {Delete as DeleteIcon, Edit as EditIcon, Add as AddBoxIcon} from '@mui/icons-material';
 import { visuallyHidden } from '@mui/utils';
+import {Link} from "react-router-dom";
 
 class TableComponent extends Component {
 
-    createData = (title, author, price, rating, sales) => {
+    createData = (title, authors, price, rating, sales) => {
         return {
             title,
-            author,
+            authors,
             price,
             rating,
             sales,
@@ -26,7 +27,7 @@ class TableComponent extends Component {
         rowsPerPage: 5,
         headCells: this.props.headCells,
         data: this.props.data,
-        rows: this.props.data.map(d=>this.createData(d.title, d.author, d.price, d.rating, d.sales))
+        rows: this.props.data.map(d=>this.createData(d.title, d.authors, d.price, d.rating, d.sales))
     }
 
     descendingComparator = (a, b, orderBy) => {
@@ -164,9 +165,11 @@ class TableComponent extends Component {
                         </Tooltip>
                     ) : (
                         <Tooltip title="Add">
-                            <IconButton>
-                                <AddBoxIcon fontSize={'large'} />
-                            </IconButton>
+                            <Link to={this.props.newObjectLink}>
+                                <IconButton>
+                                    <AddBoxIcon fontSize={'large'} />
+                                </IconButton>
+                            </Link>
                         </Tooltip>
                     )}
                 </Toolbar>
@@ -220,6 +223,11 @@ class TableComponent extends Component {
             );
         }
 
+        const punctuationCondition = (authors, author)=>{
+            if(authors.length>1 && authors[authors.length-1] !== author)
+                return <span>, </span>
+        }
+
         return (
             <Box sx={{ width: '100%' }}>
                 <Paper sx={{ width: '100%', mb: 2 }}>
@@ -265,7 +273,9 @@ class TableComponent extends Component {
                                                 >
                                                     {row.title}
                                                 </TableCell>
-                                                <TableCell>{row.author}</TableCell>
+                                                <TableCell>{row.authors.map(author=>
+                                                    <span key={author}>{author}{punctuationCondition(row.authors, author)}</span>
+                                                )}</TableCell>
                                                 <TableCell>{row.price}</TableCell>
                                                 <TableCell>{row.rating}</TableCell>
                                                 <TableCell>{row.sales}</TableCell>

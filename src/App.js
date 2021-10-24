@@ -10,6 +10,7 @@ import VerificationPage from "./components/verificationPage";
 import {authUser} from "./services/authService";
 import ForgetPasswordPage from "./components/forgetPasswordPage";
 import SellerPage from "./components/SellerPage";
+import BookPage from "./components/bookPage";
 
 class App extends Component{
 
@@ -54,6 +55,7 @@ class App extends Component{
                         <Route exact path={'/signup'} render={(props)=><SignupPage {...props}/>}/>
                         <Route exact path={'/forgetpassword'} render={(props)=><ForgetPasswordPage handleLogin={this.handleLogin} handleLinkChange={this.handleLinkChange} {...props}/>}/>
                         <Route exact path={'/verification'} render={(props)=><VerificationPage {...props}/>}/>
+                        <Route exact path={'/sellercenter/new'} render={(props)=><BookPage {...props}/>}/>
                         <Route exact path={'/sellercenter'} render={(props)=><SellerPage {...props}/>}/>
                         <Route path={'/'} render={(props)=><HomePage {...props} />}/>
                     </Switch>
