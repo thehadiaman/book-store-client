@@ -7,6 +7,10 @@ export function saveBook(body){
     http.post(apiEndPoint, body)
 }
 
+export function getAllBook(){
+    return http.get(`${apiEndPoint}`)
+}
+
 export function getBook(id){
-    http.get(`${apiEndPoint}/${id}`)
+    return http.get(`${apiEndPoint}/${id}`)
 }

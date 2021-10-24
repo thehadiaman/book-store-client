@@ -27,3 +27,7 @@
   position: relative;
   bottom: 7px;
 }
+
+.pointer{
+  cursor: pointer;
+}

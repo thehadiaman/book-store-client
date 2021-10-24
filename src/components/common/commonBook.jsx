@@ -53,7 +53,7 @@ class CommonBook extends Form {
         return <Card>
             <CardContent>
                 <Typography variant={'h5'} color="black">
-                    {book.title}
+                    {this.getTitle()}
                 </Typography>
 
                 <br/>
@@ -71,7 +71,7 @@ class CommonBook extends Form {
                 </div>
 
                 <div style={{marginBottom: '15px'}}>
-                    Sold by: {book.seller}
+                    Sold by: {book.seller && book.seller.name}
                 </div>
 
                 <div style={{marginBottom: '15px'}}>

@@ -55,7 +55,8 @@ class App extends Component{
                         <Route exact path={'/signup'} render={(props)=><SignupPage {...props}/>}/>
                         <Route exact path={'/forgetpassword'} render={(props)=><ForgetPasswordPage handleLogin={this.handleLogin} handleLinkChange={this.handleLinkChange} {...props}/>}/>
                         <Route exact path={'/verification'} render={(props)=><VerificationPage {...props}/>}/>
-                        <Route exact path={'/sellercenter/new'} render={(props)=><BookPage {...props}/>}/>
+                        <Route exact path={'/sellercenter/new'} render={(props)=><BookPage newBook={true} {...props}/>}/>
+                        <Route exact path={'/book/:id'} render={(props)=><BookPage {...props}/>}/>
                         <Route exact path={'/sellercenter'} render={(props)=><SellerPage {...props}/>}/>
                         <Route path={'/'} render={(props)=><HomePage {...props} />}/>
                     </Switch>
