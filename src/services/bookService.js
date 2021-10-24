@@ -14,3 +14,7 @@ export function getAllBook(){
 export function getBook(id){
     return http.get(`${apiEndPoint}/${id}`)
 }
+
+export function getSellerBooks(id){
+    return http.get(`${apiEndPoint}/seller/${id}`)
+}

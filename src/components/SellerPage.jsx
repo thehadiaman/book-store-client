@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import {Container} from "@mui/material";
 import TableComponent from "./common/table";
+import {getSellerBooks} from "../services/bookService";
+import {authUser} from "../services/authService";
 
 class SellerPage extends Component {
 
@@ -37,19 +39,22 @@ class SellerPage extends Component {
                 label: 'Sales',
             },
         ],
-        data: [
-            { id: 1, title: 'A Brief History of Time', authors: ['Stephen Hawking'], price: 200, rating: 4.8, sales: 500  },
-            { id: 2, title: 'Atomic Habit', authors: ['James Clear'], price: 150, rating: 4.2, sales: 444},
-            {id: 3, authors: ['George Paul Sutton', 'Oscar Biblarz'],title: 'Rocket Propulsion Elements', price: 10000, rating: 3.7, sales: 10}
-        ],
+        data: [],
         newObjectLink: '/sellercenter/new'
     }
 
+    async componentDidMount() {
+        const user = (await authUser()).data;
+        const data = user && (await getSellerBooks(user._id)).data;
+        this.setState({data})
+    }
+
     render() {
+        document.title = "Seller Center";
         return (
             <Container>
                 <h1>Seller Page</h1>
-                <TableComponent {...this.state} />
+                {this.state.data.length>0 && <TableComponent {...this.state} />}
             </Container>
         );
     }

@@ -33,7 +33,7 @@ class BookCard extends CommonBook{
                         alt="Book"
                     />
                     <CardContent>
-                        <Typography sx={{height: 30}} className={'pointer'} variant="body1" color="text.primary" onClick={()=>{this.handleBookClick(_id)}}>
+                        <Typography sx={{height: 40}} className={'pointer'} variant="body1" color="text.primary" onClick={()=>{this.handleBookClick(_id)}}>
                             {title.toUpperCase()}
                         </Typography>
                     </CardContent>

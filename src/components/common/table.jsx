@@ -9,16 +9,6 @@ import {Link} from "react-router-dom";
 
 class TableComponent extends Component {
 
-    createData = (title, authors, price, rating, sales) => {
-        return {
-            title,
-            authors,
-            price,
-            rating,
-            sales,
-        };
-    }
-
     state={
         order: 'asc',
         orderBy: 'title',
@@ -26,8 +16,7 @@ class TableComponent extends Component {
         page: 0,
         rowsPerPage: 5,
         headCells: this.props.headCells,
-        data: this.props.data,
-        rows: this.props.data.map(d=>this.createData(d.title, d.authors, d.price, d.rating, d.sales))
+        rows: this.props.data
     }
 
     descendingComparator = (a, b, orderBy) => {
@@ -67,20 +56,20 @@ class TableComponent extends Component {
     handleSelectAllClick = (event) => {
 
         if (event.target.checked) {
-            const newSelected = this.state.rows.map((n) => n.title);
+            const newSelected = this.state.rows.map((n) => n._id);
             this.setState({selected: newSelected});
             return;
         }
         this.setState({selected: []});
     };
 
-    handleClick = (event, title) => {
+    handleClick = (event, _id) => {
         const {selected} = this.state;
-        const selectedIndex = selected.indexOf(title);
+        const selectedIndex = selected.indexOf(_id);
         let newSelected = [];
 
         if (selectedIndex===-1) {
-            newSelected = newSelected.concat(selected, title);
+            newSelected = newSelected.concat(selected, _id);
         } else if (selectedIndex===0) {
             newSelected = newSelected.concat(selected.slice(1));
         } else if (selectedIndex === selected.length - 1) {
@@ -102,7 +91,7 @@ class TableComponent extends Component {
         this.setState({rowsPerPage: parseInt(event.target.value, 10), page: 0});
     };
 
-    isSelected = (title) => this.state.selected.indexOf(title) !== -1;
+    isSelected = (_id) => this.state.selected.indexOf(_id) !== -1;
 
     emptyRows = ()=>{
         const {page, rowsPerPage} = this.state;
@@ -111,7 +100,6 @@ class TableComponent extends Component {
 
     render() {
         const {selected, page, rowsPerPage, orderBy, order, headCells, rows} = this.state;
-        document.title = "Seller Center"
 
         const enhancedTableToolbar = () => {
             const numSelected = selected.length;
@@ -243,17 +231,17 @@ class TableComponent extends Component {
                                 {this.stableSort(rows, this.getComparator(order, orderBy))
                                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                     .map((row, index) => {
-                                        const isItemSelected = this.isSelected(row.title);
+                                        const isItemSelected = this.isSelected(row._id);
                                         const labelId = `enhanced-table-checkbox-${index}`;
 
                                         return (
                                             <TableRow
                                                 hover
-                                                onClick={(event) => this.handleClick(event, row.title)}
+                                                onClick={(event) => this.handleClick(event, row._id)}
                                                 role="checkbox"
                                                 aria-checked={isItemSelected}
                                                 tabIndex={-1}
-                                                key={row.title}
+                                                key={row._id}
                                                 selected={isItemSelected}
                                             >
                                                 <TableCell padding="checkbox">
@@ -271,10 +259,10 @@ class TableComponent extends Component {
                                                     scope="row"
                                                     padding="none"
                                                 >
-                                                    {row.title}
+                                                    <Link to={`/book/${row._id}`} className={'link-title'}>{row.title.toUpperCase()}</Link>
                                                 </TableCell>
-                                                <TableCell>{row.authors.map(author=>
-                                                    <span key={author}>{author}{punctuationCondition(row.authors, author)}</span>
+                                                <TableCell>{row.author.map(author=>
+                                                    <span key={author}>{author}{punctuationCondition(row.author, author)}</span>
                                                 )}</TableCell>
                                                 <TableCell>{row.price}</TableCell>
                                                 <TableCell>{row.rating}</TableCell>

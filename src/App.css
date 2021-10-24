@@ -31,3 +31,8 @@
 .pointer{
   cursor: pointer;
 }
+
+.link-title{
+  color: black;
+  text-decoration-line: none;
+}
