@@ -11,18 +11,22 @@ import {authUser} from "./services/authService";
 import ForgetPasswordPage from "./components/forgetPasswordPage";
 import SellerPage from "./components/SellerPage";
 import BookPage from "./components/bookPage";
+import {getCartCount} from "./services/cartService";
 
 class App extends Component{
 
     state={
         currentLink: window.location.pathname,
         login: false,
-        user: {}
+        user: {},
+        cartCount: 0
     }
 
 
     async componentDidMount() {
         await this.setUser();
+        const cartCount = (await getCartCount()).data['count'] || 0;
+        this.setState({cartCount})
     }
 
     setUser = async ()=>{
@@ -44,6 +48,11 @@ class App extends Component{
         this.setState({login: true})
     }
 
+    setCartCount=(count)=>{
+        const cartCount = this.state.cartCount+count;
+        this.setState({cartCount});
+    }
+
 
     render() {
         return (
@@ -56,7 +65,7 @@ class App extends Component{
                         <Route exact path={'/forgetpassword'} render={(props)=><ForgetPasswordPage handleLogin={this.handleLogin} handleLinkChange={this.handleLinkChange} {...props}/>}/>
                         <Route exact path={'/verification'} render={(props)=><VerificationPage {...props}/>}/>
                         <Route exact path={'/sellercenter/new'} render={(props)=><BookPage newBook={true} {...props}/>}/>
-                        <Route exact path={'/book/:id'} render={(props)=><BookPage {...props}/>}/>
+                        <Route exact path={'/book/:id'} render={(props)=><BookPage setCartCount={this.setCartCount} {...props}/>}/>
                         <Route exact path={'/sellercenter'} render={(props)=><SellerPage {...props}/>}/>
                         <Route path={'/'} render={(props)=><HomePage {...props} />}/>
                     </Switch>

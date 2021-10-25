@@ -7,7 +7,6 @@ import {saveBook} from "../../services/bookService";
 class Book extends CommonBook {
 
     state={
-        quantity: 0,
         newBook: this.props.newBook,
         editBook: false,
         inputs: [
@@ -25,7 +24,12 @@ class Book extends CommonBook {
 
     doSubmit=async()=>{
         try{
-            if(this.state.newBook) await saveBook(this.getData());
+            if(this.state.newBook) {
+                await saveBook(this.getData());
+                // const book = (await getBookByName(this.getData().title)).data[0];
+                // const link = `/book/${book._id}`;
+                this.props.history.push('/sellercenter');
+            }
             else await saveBook(this.getData());
         }catch (ex) {
             console.log(ex.response.data);
@@ -71,9 +75,8 @@ class Book extends CommonBook {
     }
 
     render() {
-        const {quantity, editBook, newBook, inputs} = this.state;
-        const book = this.props.book;
-
+        const {editBook, newBook, inputs} = this.state;
+        const {book} = this.props;
         const saveButton = <Button variant={'contained'} type={'submit'} color={'primary'}>Save</Button>;
 
         return (
@@ -82,7 +85,7 @@ class Book extends CommonBook {
                     {this.renderImage(newBook? this.getImage(): book.image)}
                 </Grid>
                 <Grid item xs={12} sm={6} md={6} lg={8}>
-                    {!newBook ? this.renderBookDetails(quantity, book, editBook): this.renderBookAdd(inputs, saveButton)}
+                    {!newBook ? this.renderBookDetails(book): this.renderBookAdd(inputs, saveButton, editBook)}
                 </Grid>
             </Grid>
         );

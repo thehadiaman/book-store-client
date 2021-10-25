@@ -16,8 +16,12 @@ class TopNavBar extends Component {
         menu: {
             main: [{name: 'Profile'}, {name: 'My Orders'}],
             sub: [{name: 'settings', icon: <Settings fontSize="small" />}, {name: 'logout', icon: <Logout fontSize="small" />}]
-        },
+        }
     };
+
+    getCartCount=()=>{
+        return this.props.cartCount;
+    }
 
     handleSearch = (input)=>{
         console.log(input.target.value);
@@ -83,7 +87,7 @@ class TopNavBar extends Component {
                 </Grid>}
                 <Grid item xs={(this.props.user.type==='seller' && this.props.user.validate.valid) ? 4: 6}>
                     <IconButton size='large'>
-                        <Badge badgeContent={10} color='error'>
+                        <Badge badgeContent={this.getCartCount()} color='error'>
                             <ShoppingCart fontSize={'medium'} style={{color: 'white'}} />
                         </Badge>
                     </IconButton>

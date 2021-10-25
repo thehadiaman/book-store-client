@@ -1,20 +1,24 @@
 import http from "./httpService";
 import config from './config.json';
 
-const apiEndPoint = `${config.URL}/books`
+const apiEndPoint = `${config.URL}/books`;
 
 export function saveBook(body){
-    http.post(apiEndPoint, body)
+    http.post(apiEndPoint, body);
 }
 
 export function getAllBook(){
-    return http.get(`${apiEndPoint}`)
+    return http.get(`${apiEndPoint}`);
 }
 
 export function getBook(id){
-    return http.get(`${apiEndPoint}/${id}`)
+    return http.get(`${apiEndPoint}/${id}`);
 }
 
 export function getSellerBooks(id){
-    return http.get(`${apiEndPoint}/seller/${id}`)
+    return http.get(`${apiEndPoint}/seller/${id}`);
+}
+
+export function getBookByName(name){
+    return http.get(`${apiEndPoint}/findByName?title=${name}`);
 }

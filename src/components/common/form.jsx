@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import Joi from 'joi-browser';
 
-class Form extends Component {
+class Form extends Component{
 
     state={}
 

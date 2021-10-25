@@ -3,12 +3,10 @@ import {Card, CardMedia, CardContent, CardActions, IconButton, Typography, Ratin
 import {Favorite as FavoriteIcon, Share as ShareIcon} from '@mui/icons-material';
 import CommonBook from "./commonBook";
 
-
 class BookCard extends CommonBook{
 
     state={
         _id: this.props._id,
-        quantity: 0,
         image: this.props.image,
         title: this.props.title,
         favorite: this.props.favorite
@@ -19,8 +17,7 @@ class BookCard extends CommonBook{
     }
 
     render() {
-        const {_id, quantity, image, title, favorite} = this.state;
-
+        const {_id, image, title, favorite} = this.state;
         return (
             <Grid item xs={12} sm={6} md={4} lg={3}>
                 <Card sx={{ maxWidth: 345 }}>
@@ -33,7 +30,7 @@ class BookCard extends CommonBook{
                         alt="Book"
                     />
                     <CardContent>
-                        <Typography sx={{height: 40}} className={'pointer'} variant="body1" color="text.primary" onClick={()=>{this.handleBookClick(_id)}}>
+                        <Typography sx={{height: 60}} className={'pointer'} variant="body1" color="text.primary" onClick={()=>{this.handleBookClick(_id)}}>
                             {title.toUpperCase()}
                         </Typography>
                     </CardContent>
@@ -49,7 +46,6 @@ class BookCard extends CommonBook{
                         </div>
                         <Rating name="read-only" defaultValue={4.7} precision={0.1} readOnly />
                     </CardActions>
-                    {quantity>0? this.addCount(): this.addCart()}
                 </Card>
             </Grid>
         );

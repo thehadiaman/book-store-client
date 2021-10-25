@@ -1,42 +1,14 @@
 import React from "react";
-import {Button, Card, CardContent, CardMedia, Grid, Rating, Typography} from "@mui/material";
+import {Card, CardContent, CardMedia, Rating, Typography} from "@mui/material";
 import Form from "./form";
+import Counter from "./counter";
 
 class CommonBook extends Form {
 
     state={}
 
-    handleIncrement=(value)=>{
-        const newQuantity = this.state.quantity+value;
-        if(newQuantity<0){
-            return {}
-        }
-        this.setState({quantity: newQuantity});
-    }
-
     handleFavorite=()=>{
         this.setState({favorite: !this.state.favorite})
-    }
-
-    addCount=()=>{
-        const {quantity} = this.state;
-        return <div>
-            <Grid container columns={{ xs: 12 }}>
-                <Grid item xs={3}>
-                    <Button onClick={()=>this.handleIncrement(-1)} className={'btn'} variant={'contained'} color={'warning'} fullWidth={true}>-</Button>
-                </Grid>
-                <Grid item xs={6}>
-                    <div className={'line-top'} style={{textAlign: 'center', fontSize: '30px'}}>{quantity}</div>
-                </Grid>
-                <Grid item xs={3}>
-                    <Button onClick={()=>this.handleIncrement(1)} className={'btn'} variant={'contained'} color={'warning'} fullWidth={true}>+</Button>
-                </Grid>
-            </Grid>
-        </div>;
-    }
-
-    addCart = ()=>{
-        return <Button onClick={()=>this.handleIncrement(1)} variant={'contained'} style={{width: '100%'}} color={'warning'}>Add to cart</Button>;
     }
 
     renderImage = (url)=>{
@@ -49,7 +21,8 @@ class CommonBook extends Form {
         </Card>
     }
 
-    renderBookDetails = (quantity, book, editCard)=>{
+    renderBookDetails = (book)=>{
+        const quantity = book.quantity;
         return <Card>
             <CardContent>
                 <Typography variant={'h5'} color="black">
@@ -86,8 +59,7 @@ class CommonBook extends Form {
                 </Typography>
 
                 <br/><br/>
-                {this.renderAddCart(quantity)}
-
+                {book._id!==undefined && <Counter setCartCount={this.props.setCartCount} id={book._id} quantity={quantity} />}
             </CardContent>
         </Card>
     }
@@ -102,13 +74,6 @@ class CommonBook extends Form {
             </CardContent>
         </Card>
     }
-
-    renderAddCart = (quantity)=>{
-        return <div>
-            {quantity>0? this.addCount(): this.addCart()}
-        </div>
-    }
-
 }
 
 export default CommonBook;
