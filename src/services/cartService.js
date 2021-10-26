@@ -14,3 +14,7 @@ export function getCart(){
 export function getCartCount(){
     return http.get(`${apiEndPoint}/count`)
 }
+
+export function getAllCartItems(){
+    return http.get(`${apiEndPoint}/getAll`)
+}

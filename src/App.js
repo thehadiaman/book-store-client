@@ -12,6 +12,7 @@ import ForgetPasswordPage from "./components/forgetPasswordPage";
 import SellerPage from "./components/SellerPage";
 import BookPage from "./components/bookPage";
 import {getCartCount} from "./services/cartService";
+import Cart from "./components/cart";
 
 class App extends Component{
 
@@ -67,6 +68,7 @@ class App extends Component{
                         <Route exact path={'/sellercenter/new'} render={(props)=><BookPage newBook={true} {...props}/>}/>
                         <Route exact path={'/book/:id'} render={(props)=><BookPage setCartCount={this.setCartCount} {...props}/>}/>
                         <Route exact path={'/sellercenter'} render={(props)=><SellerPage {...props}/>}/>
+                        <Route exact path={'/cart'} render={(props)=><Cart setCartCount={this.setCartCount} {...props}/>}/>
                         <Route path={'/'} render={(props)=><HomePage {...props} />}/>
                     </Switch>
                 </Box>

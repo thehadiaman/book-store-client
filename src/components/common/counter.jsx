@@ -6,7 +6,8 @@ class Counter extends Component {
 
     state={
         id: this.props.id,
-        quantity: this.props.quantity || 0
+        quantity: this.props.quantity || 0,
+        cart: this.props.cart || false
     }
 
     handleIncrement=async(value)=>{
@@ -19,6 +20,7 @@ class Counter extends Component {
         this.props.setCartCount(value);
         try {
             await addToCart(id, value);
+            this.state.cart && await this.props.setCartItem()
         }catch (ex) {
             console.log(ex);
             this.setState({quantity: (newQuantity-value)});

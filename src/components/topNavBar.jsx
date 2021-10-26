@@ -54,7 +54,7 @@ class TopNavBar extends Component {
             marginLeft: 10,
             [theme.breakpoints.up('sm')]: {
                 marginLeft: theme.spacing(2),
-                width: '80%',
+                width: '100%',
             },
         }));
 
@@ -86,11 +86,13 @@ class TopNavBar extends Component {
 
                 </Grid>}
                 <Grid item xs={(this.props.user.type==='seller' && this.props.user.validate.valid) ? 4: 6}>
-                    <IconButton size='large'>
-                        <Badge badgeContent={this.getCartCount()} color='error'>
-                            <ShoppingCart fontSize={'medium'} style={{color: 'white'}} />
-                        </Badge>
-                    </IconButton>
+                    <Link to={'/cart'}>
+                        <IconButton size='large'>
+                            <Badge badgeContent={this.getCartCount()} color='error'>
+                                <ShoppingCart fontSize={'medium'} style={{color: 'white'}} />
+                            </Badge>
+                        </IconButton>
+                    </Link>
                 </Grid>
                 <Grid item xs={(this.props.user.type==='seller' && this.props.user.validate.valid)? 4: 6}>
                     <DropDownMenu user={this.props.user} menu={this.state.menu}/>
@@ -109,7 +111,7 @@ class TopNavBar extends Component {
                         </Typography>
 
                         {!['/login', '/signup', '/verification', '/forgetpassword', '/sellercenter',
-                            '/sellercenter/new'].includes(this.props.currentLink) && <Search component={'div'} sx={{flexGrow: 1}}>
+                            '/sellercenter/new', '/cart'].includes(this.props.currentLink) && <Search component={'div'} sx={{flexGrow: 1}}>
                             <SearchIconWrapper>
                                 <SearchIcon/>
                             </SearchIconWrapper>
