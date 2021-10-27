@@ -99,8 +99,8 @@ class TopNavBar extends Component {
 
 
         return (
-            <Box sx={{ flexGrow: 1 }} style={{marginBottom: '10px'}}>
-                <AppBar position='static'>
+            <Box sx={{ flexGrow: 1 }}>
+                <AppBar position={'fixed'}>
                     <Toolbar>
                         <Typography onClick={()=>this.props.handleLinkChange('/')} className={'nav-head'} variant={'h6'} component={'div'} sx={{ flexGrow: 1 }}>
                             <Box sx={{ display: { xs: 'none', lg: 'block', xl: 'none' } }}><Link to={'/'} style={{textDecoration: 'none', color: 'white'}}>BookStack</Link></Box>

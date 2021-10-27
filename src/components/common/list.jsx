@@ -2,7 +2,6 @@ import React from "react";
 import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 
 function Lists ({rows, head, properties}) {
-    console.log(rows);
     return (
         <TableContainer>
             <Table aria-label="simple table" className={'table-list'}>
