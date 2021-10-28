@@ -8,7 +8,7 @@ function CartCard({item, setCartCount, setCartItem}) {
 
     const quantity = item.quantity;
     return (
-        <Card style={{margin: "10px"}}>
+        <Card style={{margin: "0 0px 10px 0"}}>
             <Grid container spacing={{md: 3, lg: 3}} columns={{ xs: 12, sm: 12, md: 12, lg:12 }}>
                 <Grid item xs={3} sm={2} md={2} lg={3}>
                     <CardActionArea>

@@ -3,7 +3,7 @@ import HomePage from "./components/homePage";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import LoginPage from "./components/loginPage";
 import './App.css';
-import {BottomNavigation, Box} from "@mui/material";
+import {Box} from "@mui/material";
 import TopNavBar from "./components/topNavBar";
 import SignupPage from "./components/signupPage";
 import VerificationPage from "./components/verificationPage";
@@ -13,6 +13,7 @@ import SellerPage from "./components/SellerPage";
 import BookPage from "./components/bookPage";
 import {getCartCount} from "./services/cartService";
 import Cart from "./components/cart";
+import Footer from "./components/footer";
 
 class App extends Component{
 
@@ -73,6 +74,7 @@ class App extends Component{
                         <Route path={'/'} render={(props)=><HomePage {...props} />}/>
                     </Switch>
                 </Box>
+                <Footer/>
             </BrowserRouter>
         );
     }

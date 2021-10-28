@@ -36,8 +36,12 @@ class TopNavBar extends Component {
             '& .MuiInputBase-input': {
                 padding: theme.spacing(1, 1, 1, 0),
                 paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-                transition: theme.transitions.create('width')
-            }
+                transition: theme.transitions.create('width'),
+                width: '100%',
+                [theme.breakpoints.up('md')]: {
+                    width: '50ch',
+                },
+            },
         }));
 
         const Search = styled('div')(({ theme }) => ({
@@ -48,10 +52,11 @@ class TopNavBar extends Component {
                 backgroundColor: alpha(theme.palette.common.white, 0.25),
             },
             marginRight: theme.spacing(2),
-            marginLeft: 10,
+            marginLeft: 0,
+            width: '100%',
             [theme.breakpoints.up('sm')]: {
-                marginLeft: theme.spacing(2),
-                width: '100%',
+                marginLeft: theme.spacing(3),
+                width: 'auto',
             },
         }));
 
@@ -102,13 +107,13 @@ class TopNavBar extends Component {
             <Box sx={{ flexGrow: 1 }}>
                 <AppBar position={'fixed'}>
                     <Toolbar>
-                        <Typography onClick={()=>this.props.handleLinkChange('/')} className={'nav-head'} variant={'h6'} component={'div'} sx={{ flexGrow: 1 }}>
+                        <Typography onClick={()=>this.props.handleLinkChange('/')} className={'nav-head'} variant={'h6'} component={'div'}>
                             <Box sx={{ display: { xs: 'none', lg: 'block', xl: 'none' } }}><Link to={'/'} style={{textDecoration: 'none', color: 'white'}}>BookStack</Link></Box>
                             <Box sx={{ display: { xs: 'block', lg: 'none', xl: 'block' } }}><Link to={'/'} style={{textDecoration: 'none', color: 'white'}}>BS</Link></Box>
                         </Typography>
 
                         {!['/login', '/signup', '/verification', '/forgetpassword', '/sellercenter',
-                            '/sellercenter/new', '/cart'].includes(this.props.currentLink) && <Search component={'div'} sx={{flexGrow: 1}}>
+                            '/sellercenter/new', '/cart'].includes(this.props.currentLink) && <Search component={'div'} >
                             <SearchIconWrapper>
                                 <SearchIcon/>
                             </SearchIconWrapper>
@@ -118,6 +123,8 @@ class TopNavBar extends Component {
                                 inputProps={{'aria-label': 'search'}}
                             />
                         </Search>}
+
+                        <Box sx={{ flexGrow: 1 }} />
 
                         {login? LoginTrueNavBarMenu: LoginFalseNavBarMenu}
 

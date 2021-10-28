@@ -4,7 +4,6 @@ import BookCard from "./common/bookCard";
 import Container from "@mui/material/Container";
 import {getAllBook} from "../services/bookService";
 import {
-    BottomNavigation,
     Card,
     CardActions,
     CardContent,
