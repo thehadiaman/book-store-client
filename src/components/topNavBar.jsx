@@ -79,7 +79,7 @@ class TopNavBar extends Component {
             <Grid container columns={{xs: 12}}>
                 {(this.props.user.type==='seller' && this.props.user.validate.valid) && <Grid item xs={4}>
                     <Link to={'/sellercenter'}>
-                        <IconButton size='large'>
+                        <IconButton title={"Seller Center"} size='large'>
                             <Badge badgeContent={0} color='error'>
                                 <SellIcon fontSize={'medium'} style={{color: 'white'}} />
                             </Badge>
@@ -89,7 +89,7 @@ class TopNavBar extends Component {
                 </Grid>}
                 <Grid item xs={(this.props.user.type==='seller' && this.props.user.validate.valid) ? 4: 6}>
                     <Link to={'/cart'}>
-                        <IconButton size='large'>
+                        <IconButton title={"Cart"} size='large'>
                             <Badge badgeContent={this.getCartCount()} color='error'>
                                 <ShoppingCart fontSize={'medium'} style={{color: 'white'}} />
                             </Badge>

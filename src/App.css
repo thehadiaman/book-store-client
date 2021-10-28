@@ -40,3 +40,14 @@
 .table-list{
   width: max-content;
 }
+
+.white-text{
+  color: white;
+}
+
+.cart-remove-btn{
+  position: relative;
+  float: right;
+  top: 0;
+  margin: 0;
+}
