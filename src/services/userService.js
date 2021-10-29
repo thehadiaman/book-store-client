@@ -27,3 +27,7 @@ export function forgetPassword(email){
 export function resetPassword(body){
     return http.put(`${apiEndPoint}/resetpassword`, {email: body.email, code: body.code, password: body.password});
 }
+
+export function updateAddress(body){
+    return http.put(`${apiEndPoint}/updateContact`, {address: body.address, phone: body.phone});
+}

@@ -22,7 +22,7 @@ class BookCard extends CommonBook{
             <Grid item xs={12} sm={6} md={4} lg={3}>
                 <Card sx={{ maxWidth: 345 }}>
                     <CardMedia
-                        className={'pointer'}
+                        className={'media-zoom pointer'}
                         onClick={()=>{this.handleBookClick(_id)}}
                         component="img"
                         height="300"

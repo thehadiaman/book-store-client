@@ -1,17 +1,21 @@
 import React from "react";
 import {getAllCartItems, getTotalPrice} from "../services/cartService";
-import CartCard from "./common/cartCard";
 import {
-    Accordion, AccordionDetails, AccordionSummary, Alert, AlertTitle, Button,
+    Alert,
+    AlertTitle, Button,
+    Card,
+    CardContent,
     Container,
-    Grid, Typography,
+    Grid,
 } from "@mui/material";
-import List from "./common/list";
-import {ExpandMore} from "@mui/icons-material";
 import {Link} from "react-router-dom";
 import CommonCart from "./common/commonCart";
+import List from "./common/list";
+import ContactDetails from "./contactDetails";
+import PaymentDetails from "./paymentDetails";
 
-class Cart extends CommonCart {
+
+class PlaceOrder extends CommonCart{
 
     state={
         cartItems: [],
@@ -24,16 +28,12 @@ class Cart extends CommonCart {
         this.setState({cartItems, totalPrice});
     }
 
-    setCartItem=async()=>{
-        const cartItems = (await getAllCartItems()).data;
-        const totalPrice = (await getTotalPrice()).data.total;
-        await this.setState({cartItems, totalPrice});
-    }
-
     render() {
         const {cartItems} = this.state;
         const head = ['Title', 'Price', 'Quantity', 'Total'];
         const properties = ['title', 'price', 'quantity', 'total'];
+
+
         if(cartItems.length===0){
             return <Container>
                 <Alert severity="warning">
@@ -56,40 +56,29 @@ class Cart extends CommonCart {
         }
         return (
             <Container>
-                <Grid container spacing={{md: 3, lg: 3}} columns={{ xs: 12, sm: 12, md: 12, lg:12 }}>
-                    <Grid item xs={12} sm={7} md={7} lg={7}>
-                        {
-                            cartItems.map(item=>{
-                                return <CartCard key={item.cartItems._id} setCartItem={this.setCartItem} setCartCount={this.props.setCartCount} item={item.cartItems}/>
-                            })
-                        }
+                <List rows={cartItems} head={head} properties={properties} />
+
+                <Grid container spacing={{ xs: 2, md: 3, lg: 3}} columns={{ xs: 12, sm: 12, md: 12, lg:12 }}>
+                    <Grid className={'special-form'} item xs={12} sm={6} md={4} lg={4}>
+                        <ContactDetails user={this.props.user}/>
                     </Grid>
-                    <Grid item xs={12} sm={5} md={5} lg={5}>
-                        <Accordion>
-                            <AccordionSummary
-                                expandIcon={<ExpandMore />}
-                                aria-controls="panel1a-content"
-                                id="panel1a-header"
-                            >
-                                <Typography>Total cost: <b>₹{this.getTotalPrice()}</b></Typography>
-                            </AccordionSummary>
-                            <AccordionDetails style={{padding: 0}}>
-                                <List rows={cartItems} head={head} properties={properties} />
-                                <Grid container columns={2} padding={"10px"}>
-                                    <Grid item xs={6}>
-                                        <b style={{fontSize: "25px"}}>₹{this.getTotalPrice()}</b> <div style={{width: "100%"}} />
-                                    </Grid>
-                                    <Grid item xs={6}>
-                                        <Button onClick={()=>this.props.history.push('/placeOrder')} style={{width: "100%"}} variant={'contained'} color={'warning'} float={'right'}>Place Order</Button>
-                                    </Grid>
-                                </Grid>
-                            </AccordionDetails>
-                        </Accordion>
+                    <Grid className={'special-form'} item xs={12} sm={6} md={4} lg={4}>
+                        <PaymentDetails user={this.props.user} />
+                    </Grid>
+                    <Grid className={'special-form'} item xs={12} sm={12} md={4} lg={4}>
+                        <h5>Check Out</h5>
+                        <Card sx={{ minWidth: 275 }} className={'card-hover-outline-black'}>
+                            <CardContent>
+                                Total Price: ####
+                                <Button style={{width: "100%"}} variant={'contained'} color={'warning'} float={'right'}>CheckOut</Button>
+                            </CardContent>
+                        </Card>
                     </Grid>
                 </Grid>
+
             </Container>
-        );
+        )
     }
 }
 
-export default Cart;
+export default PlaceOrder;
