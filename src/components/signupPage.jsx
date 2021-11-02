@@ -2,7 +2,7 @@ import React from "react";
 import {Button, Step, StepLabel, Stepper, Grid, Container, LinearProgress, Stack} from "@mui/material";
 import Form from "./common/form";
 import Joi from "joi-browser";
-import {checkEmail, saveUser} from "../services/userService";
+import {checkDeliveryPartner, checkEmail, saveUser} from "../services/userService";
 
 class SignupPage extends Form{
 
@@ -13,6 +13,7 @@ class SignupPage extends Form{
             {name: 'email', type: 'email', placeholder: 'Email', value: ''},
             {name: 'address', type: 'text', placeholder: 'Address', value: ''},
             {name: 'phone', type: 'text', placeholder: 'Phone Number', value: ''},
+            {name: 'zip', type: 'text', placeholder: 'Zip code', value: ''},
             {name: 'type', type: 'select', placeholder: 'Type', value: ''},
             {name: 'password', type: 'password', placeholder: 'Password', value: ''}
         ],
@@ -37,10 +38,11 @@ class SignupPage extends Form{
             },
             {
                 address: Joi.string().min(6).max(60).required().label('Address'),
-                phone: Joi.number().min(10000000).max(9999999999999).required()
+                phone: Joi.number().min(10000000).max(9999999999999).required(),
+                zip: Joi.number().min(100000).max(999999).required().label('Zip')
             },
             {
-                type: Joi.string().min(5).max(6).required().valid('seller', 'buyer').label('Type'),
+                type: Joi.string().min(5).max(18).required().valid('seller', 'buyer', 'delivery_partner').label('Type'),
                 password: Joi.string().min(8).max(50).required().label('Password')
             }
         ][this.state.activeStep]
@@ -54,7 +56,8 @@ class SignupPage extends Form{
             },
             {
                 address: this.state.inputs.filter(input => input.name === "address")[0].value,
-                phone: this.state.inputs.filter(input => input.name === "phone")[0].value
+                phone: this.state.inputs.filter(input => input.name === "phone")[0].value,
+                zip: this.state.inputs.find(input => input.name === "zip").value
             },
             {
                 type: this.state.inputs.filter(input => input.name === "type")[0].value,
@@ -68,7 +71,7 @@ class SignupPage extends Form{
     }
 
     getAllValues = ()=>{
-        const properties = ['name', 'email', 'address', 'phone', 'type', 'password'];
+        const properties = ['name', 'email', 'address', 'phone', 'zip', 'type', 'password'];
         const values = {};
         for(let a=0;a<properties.length;a++) {
             values[properties[a]] = this.state.inputs.filter(input => input.name === properties[a])[0].value;
@@ -114,6 +117,26 @@ class SignupPage extends Form{
 
     handleSubmit = async(e)=>{
         e.preventDefault();
+
+        const type = this.getData()[this.state.activeStep].type;
+        const prevStep = this.state.activeStep;
+        const errors = {};
+        if(type==='delivery_partner'){
+            try{
+                const zip = await checkDeliveryPartner(this.getData()[1].zip);
+                console.log(zip);
+            }catch(ex){
+                console.log(ex.response.data);
+                errors.zip = ex.response.data;
+                this.setState({errors});
+                const inputs = [...this.state.inputs];
+                for (let input of ['type', 'password'])
+                    inputs.find(i=>i.name===input).value = "";
+                this.setState({activeStep: prevStep-1, inputs});
+                return;
+            }
+        }
+
         await this.handleNext();
         try{
             const data = (await saveUser(this.getAllValues()));
@@ -132,8 +155,8 @@ class SignupPage extends Form{
 
         const stepComponents = [
             this.renderInputs(this.inputSelector(inputs, 0, 1), ""),
-            this.renderInputs(this.inputSelector(inputs, 2, 3), ""),
-            this.renderInputs(this.inputSelector(inputs, 4, 5), ""),
+            this.renderInputs(this.inputSelector(inputs, 2, 4), ""),
+            this.renderInputs(this.inputSelector(inputs, 5, 6), ""),
             <Stack sx={{ width: '100%', color: 'grey.500' }} spacing={3}>
                 <LinearProgress color="inherit"/>
                 <LinearProgress color="inherit"/>

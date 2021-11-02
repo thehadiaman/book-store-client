@@ -14,7 +14,11 @@ class TopNavBar extends Component {
     state={
         searchInput: '',
         menu: {
-            main: [{name: 'Profile'}, {name: 'My Orders'}],
+            main: [{name: 'Profile', link: '/profile'}, {name: 'My Orders', link: '/myOrders'}],
+            sub: [{name: 'settings', icon: <Settings fontSize="small" />}, {name: 'logout', icon: <Logout fontSize="small" />}]
+        },
+        menu_delivery_partner: {
+            main: [{name: 'Profile', link: '/profile'}, {name: 'Orders', link: '/orders'}],
             sub: [{name: 'settings', icon: <Settings fontSize="small" />}, {name: 'logout', icon: <Logout fontSize="small" />}]
         }
     };
@@ -102,6 +106,14 @@ class TopNavBar extends Component {
             </Grid>
         </Box>;
 
+        const LoginTrueNavBarMenuDeliveryPartner = <Box>
+            <Grid container columns={{xs: 12}}>
+                <Grid item xs={12}>
+                    <DropDownMenu user={this.props.user} menu={this.state.menu_delivery_partner}/>
+                </Grid>
+            </Grid>
+        </Box>;
+
 
         return (
             <Box sx={{ flexGrow: 1 }}>
@@ -112,8 +124,8 @@ class TopNavBar extends Component {
                             <Box sx={{ display: { xs: 'block', lg: 'none', xl: 'block' } }}><Link to={'/'} style={{textDecoration: 'none', color: 'white'}}>BS</Link></Box>
                         </Typography>
 
-                        {!['/login', '/signup', '/verification', '/forgetpassword', '/sellercenter',
-                            '/sellercenter/new', '/cart'].includes(this.props.currentLink) && <Search component={'div'} >
+                        {(this.props.user.type!=='delivery_partner' && !['/login', '/signup', '/verification', '/forgetpassword', '/sellercenter',
+                            '/sellercenter/new', '/cart'].includes(this.props.currentLink) ) && <Search component={'div'} >
                             <SearchIconWrapper>
                                 <SearchIcon/>
                             </SearchIconWrapper>
@@ -126,7 +138,9 @@ class TopNavBar extends Component {
 
                         <Box sx={{ flexGrow: 1 }} />
 
-                        {login? LoginTrueNavBarMenu: LoginFalseNavBarMenu}
+                        {login? (this.props.user.type!=='delivery_partner' && LoginTrueNavBarMenu): LoginFalseNavBarMenu}
+
+                        {this.props.user.type==='delivery_partner' && LoginTrueNavBarMenuDeliveryPartner}
 
                         {!login && <Box sx={{display: {xs: 'block', lg: 'none', md: 'none', xl: 'block'}}}>
                             <IconButton

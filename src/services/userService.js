@@ -4,7 +4,7 @@ import config from './config.json';
 const apiEndPoint = `${config.URL}/users`
 
 export function saveUser(body){
-    return http.post(apiEndPoint, {name: body.name, email: body.email, address: body.address, phone: body.phone, type: body.type,
+    return http.post(apiEndPoint, {name: body.name, email: body.email, address: body.address, phone: body.phone, zip: body.zip , type: body.type,
         password: body.password});
 }
 
@@ -29,5 +29,9 @@ export function resetPassword(body){
 }
 
 export function updateAddress(body){
-    return http.put(`${apiEndPoint}/updateContact`, {address: body.address, phone: body.phone});
+    return http.put(`${apiEndPoint}/updateContact`, {address: body.address, phone: body.phone, zip: body.zip});
+}
+
+export function checkDeliveryPartner(zip){
+    return http.get(`${apiEndPoint}/check-delivery-partner-zip/${zip}`)
 }

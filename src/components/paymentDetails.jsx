@@ -12,13 +12,11 @@ class PaymentDetails extends Component {
         ]
     }
 
-    doSubmit=()=>{
-        console.log('Payment Details');
-    }
-
     onChange=(input)=>{
-        const type = input.target.value;
+        // const type = input.target.value;
+        const type = 'cod';
         this.setState({type});
+        this.props.setMetod(type);
     }
 
     render() {
@@ -38,9 +36,10 @@ class PaymentDetails extends Component {
                                 onClick={this.onChange}
                                 control={<Radio checkedIcon={<MonetizationOn/>} icon={<MonetizationOn/>} checked={input.value===type} color="warning"/>}
                                 label={input.label}
+                                disabled={input.value!=='cod'}
                                 sx={{
                                     '& .MuiSvgIcon-root': {
-                                        fontSize: 28,
+                                        fontSize: 35,
                                     },
                                 }}
                             />)}

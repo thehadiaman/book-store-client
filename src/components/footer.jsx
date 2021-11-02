@@ -19,7 +19,7 @@ function Footer () {
                 <Grid item xs={12} sm={6} md={6} lg={6}>
                     <h6><Link className={'link-title white-text'} to={'/'}>Home</Link></h6>
                     <h6><Link className={'link-title white-text'} to={'/cart'}>Cart</Link></h6>
-                    <h6><Link className={'link-title white-text'} to={'/orders'}>Orders</Link></h6>
+                    <h6><Link className={'link-title white-text'} to={'/myOrders'}>My Orders</Link></h6>
                 </Grid>
             </Grid>
         </footer>

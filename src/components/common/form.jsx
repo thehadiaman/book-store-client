@@ -54,6 +54,7 @@ class Form extends Component{
                             >
                                 <MenuItem value={'buyer'}>Buyer</MenuItem>
                                 <MenuItem value={'seller'}>Seller</MenuItem>
+                                <MenuItem value={'delivery_partner'}>Delivery Partner</MenuItem>
                             </Select>
                             {(errors[input.name] !== undefined) && (
                                 <FormHelperText>{errors[input.name]? errors[input.name]: ''}</FormHelperText>

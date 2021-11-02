@@ -61,7 +61,7 @@ class DropDownMenu extends Component {
                     transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                     anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                 >
-                    {this.props.menu.main.map(m=><Link key={m.name} to={'/'} style={{textDecoration: 'none', color: 'black'}}>
+                    {this.props.menu.main.map(m=><Link key={m.name} to={m.link} style={{textDecoration: 'none', color: 'black'}}>
                         <MenuItem>
                         <Avatar /> <span>{m.name}</span>
                     </MenuItem>

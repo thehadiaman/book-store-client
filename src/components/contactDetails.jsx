@@ -10,35 +10,43 @@ class ContactDetails extends Form {
     state={
         inputs:[
             {name: 'address', type: 'multiline', placeholder: 'Address', value: ''},
-            {name: 'phone', type: 'text', placeholder: 'Phone Number', value: ''}
+            {name: 'phone', type: 'text', placeholder: 'Phone Number', value: ''},
+            {name: 'zip', type: 'text', placeholder: 'Zip code', value: ''}
         ],
         errors: {},
         addressButtonLoading: false
     }
 
     async componentDidMount() {
+        const user = this.props.user;
         const inputs = [...this.state.inputs];
 
         const address = inputs.find(input=>input.name==='address');
         const indexOfAddress = inputs.indexOf(address);
-        inputs[indexOfAddress].value = this.props.user.address;
+        inputs[indexOfAddress].value = user.address;
 
         const phone = inputs.find(input=>input.name==='phone');
         const indexOfPhone = inputs.indexOf(phone);
-        inputs[indexOfPhone].value = this.props.user.phone;
+        inputs[indexOfPhone].value = user.phone;
+
+        const zip = inputs.find(input=>input.name==='zip');
+        const indexOfZip = inputs.indexOf(zip);
+        inputs[indexOfZip].value = user.zip !== null? user.zip: "";
 
         this.setState({inputs});
     }
 
     schema = {
         address: Joi.string().min(10).max(50).required().label('Address'),
-        phone: Joi.number().min(10000000).max(9999999999999).required()
+        phone: Joi.number().min(10000000).max(9999999999999).required().label('Phone'),
+        zip: Joi.number().min(100000).max(999999).required().label('Zip'),
     }
 
     getData = ()=>{
         return {
             address: this.state.inputs.find(input=>input.name==='address').value,
-            phone: this.state.inputs.find(input => input.name === "phone").value
+            phone: this.state.inputs.find(input => input.name === "phone").value,
+            zip: this.state.inputs.find(input => input.name === "zip").value
         }
     }
 

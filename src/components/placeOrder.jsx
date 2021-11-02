@@ -2,7 +2,8 @@ import React from "react";
 import {getAllCartItems, getTotalPrice} from "../services/cartService";
 import {
     Alert,
-    AlertTitle, Button,
+    AlertTitle,
+    Button,
     Card,
     CardContent,
     Container,
@@ -13,13 +14,18 @@ import CommonCart from "./common/commonCart";
 import List from "./common/list";
 import ContactDetails from "./contactDetails";
 import PaymentDetails from "./paymentDetails";
+import Snack from "./common/snack";
+import {checkOut} from "../services/orderService";
 
 
 class PlaceOrder extends CommonCart{
 
     state={
         cartItems: [],
-        totalPrice: 0
+        totalPrice: 0,
+        snackState: false,
+        errors: {},
+        payment: 'cod'
     }
 
     async componentDidMount() {
@@ -28,11 +34,32 @@ class PlaceOrder extends CommonCart{
         this.setState({cartItems, totalPrice});
     }
 
+    handleSnackClose = ()=>{
+        this.setState({snackState: false, errors: {}});
+    }
+
+    handleCheckOut=async()=>{
+        const errors={};
+        try{
+            const data = (await checkOut(this.state.payment)).data;
+            console.log(data);
+            this.props.setCartCount('clear');
+            this.props.history.replace('/myOrders');
+        }catch (ex){
+            console.log(ex);
+            errors.checkOut = ex.response.data;
+            this.setState({snackState: true, errors});
+        }
+    }
+
+    setPaymentMethod=(payment)=>{
+        this.setState({payment});
+    }
+
     render() {
-        const {cartItems} = this.state;
         const head = ['Title', 'Price', 'Quantity', 'Total'];
         const properties = ['title', 'price', 'quantity', 'total'];
-
+        const {cartItems, snackState, errors} = this.state;
 
         if(cartItems.length===0){
             return <Container>
@@ -63,19 +90,19 @@ class PlaceOrder extends CommonCart{
                         <ContactDetails user={this.props.user}/>
                     </Grid>
                     <Grid className={'special-form'} item xs={12} sm={6} md={4} lg={4}>
-                        <PaymentDetails user={this.props.user} />
+                        <PaymentDetails setMetod={this.setPaymentMethod} user={this.props.user} />
                     </Grid>
                     <Grid className={'special-form'} item xs={12} sm={12} md={4} lg={4}>
                         <h5>Check Out</h5>
                         <Card sx={{ minWidth: 275 }} className={'card-hover-outline-black'}>
                             <CardContent>
-                                Total Price: ####
-                                <Button style={{width: "100%"}} variant={'contained'} color={'warning'} float={'right'}>CheckOut</Button>
+                                <h4>Total Price: ₹{this.getTotalPrice()}</h4>
+                                <Button onClick={this.handleCheckOut} style={{width: "100%"}} variant={'contained'} color={'warning'} float={'right'}>CheckOut</Button>
                             </CardContent>
                         </Card>
                     </Grid>
                 </Grid>
-
+                {(snackState && errors.checkOut!==undefined) && <Snack severity={errors.checkOut? "error": "success"} handleSnackClose={this.handleSnackClose} snackState={snackState} snackMessage={errors.checkOut}/>}
             </Container>
         )
     }
