@@ -12,9 +12,13 @@ import {
 import {ExpandMore} from "@mui/icons-material";
 import _ from "lodash";
 import {Link} from "react-router-dom";
+import TabComponent from "./tabComponent";
 
 class DeliveryPage extends Component {
 
+    state={
+        value: 'ordered'
+    }
 
     capitalize=(string)=>{
         let lowerCase = string.toLowerCase();
@@ -32,15 +36,20 @@ class DeliveryPage extends Component {
         return ((status==='ordered'&&'default') || (status==='packed'&&'primary') || (status==='shipped'&&'secondary') || (status==='delivered'&&'success') || (status==='cancelled'&&'error'))
     }
 
+    setTabValue=(event, value)=>{
+        this.setState({value});
+    }
+
     render() {
         const head=['Title', 'Price', 'Quantity', 'Total'];
-        const orders = this.props.orders || [];
+        const orders = this.props.orders.reverse() || [];
+        const {value} = this.state;
 
         return (
             <Container style={{marginBottom: '150px'}}>
-                {orders.map(order=>{
-                    console.log(order);
-                    return <Accordion style={{marginTop: '20px'}} key={`${order._id}${Date.now()}`}>
+                <TabComponent value={this.state.value} handleChange={this.setTabValue}/>
+                {orders.filter(order=>order.status===value).map(order=>{
+                    return <Accordion style={{marginTop: '20px'}} key={`${order.OrderId}`}>
                         <AccordionSummary
                             expandIcon={<ExpandMore />}
                             aria-controls="panel1a-content"
@@ -69,7 +78,7 @@ class DeliveryPage extends Component {
                                         <Table aria-label="orders">
                                             <TableHead>
                                                 <TableRow style={{fontSize: 20}}>
-                                                    {head.map(h=><TableCell>{h}</TableCell>)}
+                                                    {head.map(h=><TableCell key={h}>{h}</TableCell>)}
                                                 </TableRow>
                                             </TableHead>
                                             <TableBody>
@@ -81,9 +90,9 @@ class DeliveryPage extends Component {
                                                         <TableCell component="th" scope="row">
                                                             <Link to={`book/${order.books[a]._id}`} className={'link-title'}>{order.books[a].title.toUpperCase()}</Link>
                                                         </TableCell>
-                                                        <TableCell>₹ {this.getTotalPrice(order.books[a].price)}</TableCell>
+                                                        <TableCell>₹{this.getTotalPrice(order.books[a].price)}</TableCell>
                                                         <TableCell>{order.order[a].quantity}</TableCell>
-                                                        <TableCell>₹ {this.getTotalPrice(order.order[a].quantity*order.books[a].price)}</TableCell>
+                                                        <TableCell>₹{this.getTotalPrice(order.order[a].quantity*order.books[a].price)}</TableCell>
                                                     </TableRow>
                                                 ))}
                                                 <TableRow
@@ -92,7 +101,7 @@ class DeliveryPage extends Component {
                                                     <TableCell><b>Total</b></TableCell>
                                                     <TableCell/>
                                                     <TableCell/>
-                                                    <TableCell><b>₹ {this.getTotalPrice(order.cost)}</b></TableCell>
+                                                    <TableCell><b>₹{this.getTotalPrice(order.cost)}</b></TableCell>
                                                 </TableRow>
                                             </TableBody>
                                         </Table>

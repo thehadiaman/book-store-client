@@ -20,16 +20,17 @@ class MyOrders extends Component {
     }
 
     render() {
+        const {orders} = this.state;
         document.title = "My Orders";
 
-        if(this.state.orders.length<=0){
+        if(!orders.length || orders.length<=0){
             return <Container>
                 <Alert severity="warning">
                     <AlertTitle>Empty Orders</AlertTitle>
                     The orders list is empty <Link to={'/'}><strong>go to Home page</strong></Link>
                 </Alert>
                 <div style={{textAlign: "center"}}>
-                    <svg width={"50%"} style={{margin: 0}} fill="#000000" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" x="0px" y="0px" >
+                    <svg width={"50%"} style={{margin: 0}} fill="#000000" viewBox="0 0 36 36" x="0px" y="0px" >
                         <g>
                             <path d="M28,25H9a1,1,0,0,1-1-.84L5.15,6H2V4H6a1,1,0,0,1,1,.84L9.85,23H27.29l4.29-12H26V9h7a1,1,0,0,1,.82.42,1,1,0,0,1,.12.92l-5,14A1,1,0,0,1,28,25Z"/>
                             <path d="M13,32a3,3,0,1,1,3-3A3,3,0,0,1,13,32Zm0-4a1,1,0,1,0,1,1A1,1,0,0,0,13,28Z"/>
@@ -44,7 +45,7 @@ class MyOrders extends Component {
         }
 
         return (
-            <DeliveryPage orders={this.state.orders}/>
+            <DeliveryPage orders={orders}/>
         );
     }
 }

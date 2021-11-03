@@ -30,7 +30,7 @@ class BookPage extends Component {
     render() {
         return (
             <Container>
-                <Book setCartCount={this.props.setCartCount} {...this.state}/>
+                <Book setCartCount={this.props.setCartCount} {...this.props} {...this.state}/>
             </Container>
         );
     }

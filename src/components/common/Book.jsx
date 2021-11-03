@@ -26,12 +26,11 @@ class Book extends CommonBook {
         try{
             if(this.state.newBook) {
                 await saveBook(this.getData());
-                // const book = (await getBookByName(this.getData().title)).data[0];
-                // const link = `/book/${book._id}`;
                 this.props.history.push('/sellercenter');
             }
             else await saveBook(this.getData());
         }catch (ex) {
+            console.log(ex);
             console.log(ex.response.data);
         }
     }
