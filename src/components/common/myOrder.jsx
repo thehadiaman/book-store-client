@@ -13,18 +13,21 @@ import {ExpandMore} from "@mui/icons-material";
 import _ from "lodash";
 import {Link} from "react-router-dom";
 import TabComponent from "./tabComponent";
+import ModalQa from "./modalQA";
+import {cancelOrder} from "../../services/orderService";
+import {getCartCount} from "../../services/cartService";
 
-class DeliveryPage extends Component {
+class MyOrder extends Component {
 
     state={
-        value: 'ordered'
+        value: 'ordered',
+        orderId: ''
     }
 
     capitalize=(string)=>{
         let lowerCase = string.toLowerCase();
         const first = lowerCase.charAt(0).toUpperCase();
         const remain = lowerCase.slice(1);
-
         return first+remain
     }
 
@@ -40,6 +43,23 @@ class DeliveryPage extends Component {
         this.setState({value});
     }
 
+    setOrderId=(orderId)=>{
+        this.setState({orderId});
+    }
+
+    handleOrderCancel=async()=>{
+        try{
+            const response = (await cancelOrder(this.state.orderId)).data;
+            console.log(response);
+            const count = (await getCartCount()).data;
+            this.props.setCartCount('clear');
+            this.props.setCartCount(count.count);
+            this.props.setOrders();
+        }catch (ex) {
+            console.log(ex.response.data);
+        }
+    }
+
     render() {
         const head=['Title', 'Price', 'Quantity', 'Total'];
         const orders = this.props.orders.reverse() || [];
@@ -47,7 +67,7 @@ class DeliveryPage extends Component {
 
         return (
             <Container style={{marginBottom: '150px'}}>
-                <TabComponent value={this.state.value} handleChange={this.setTabValue}/>
+                <TabComponent {...this.props} value={this.state.value} handleChange={this.setTabValue}/>
                 {orders.filter(order=>order.status===value).map(order=>{
                     return <Accordion style={{marginTop: '20px'}} key={`${order.OrderId}`}>
                         <AccordionSummary
@@ -106,6 +126,18 @@ class DeliveryPage extends Component {
                                             </TableBody>
                                         </Table>
                                     </TableContainer>
+                                    {
+                                        (value!=='cancelled' && value!=='delivered') && <div style={{paddingBottom: '30px', position: 'relative'}} onClick={()=>this.setOrderId(order.OrderId)}>
+                                            <ModalQa
+                                                style={{position: 'absolute', right: '0', top: '5px'}}
+                                                handleOrderCancel={this.handleOrderCancel}
+                                                btnText={'Cancel Order'}
+                                                btnColor={'error'}
+                                                modalQHead={'Cancel order'}
+                                                modalQBody={'Even you cancel order, the items moved to cart.'}
+                                            />
+                                        </div>
+                                    }
                                 </Grid>
                             </Grid>
                         </AccordionDetails>
@@ -116,4 +148,4 @@ class DeliveryPage extends Component {
     }
 }
 
-export default DeliveryPage;
+export default MyOrder;

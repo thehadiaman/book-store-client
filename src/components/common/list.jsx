@@ -2,6 +2,7 @@ import React from "react";
 import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 
 function Lists ({rows, head, properties}) {
+    console.log(rows);
     return (
         <TableContainer>
             <Table aria-label="simple table" className={'table-list'}>
@@ -12,11 +13,19 @@ function Lists ({rows, head, properties}) {
                 </TableHead>
                 <TableBody>
                     {rows.map((row) => {
-                        row.cartItems.total = row.cartItems.price * row.cartItems.quantity;
-                        return <TableRow key={row.cartItems._id}>
-                            {properties.map(p => <TableCell align="left" key={`${p}cell`}
-                            >{String(row.cartItems[p]).toUpperCase()}</TableCell>)}
-                        </TableRow>
+                        if(row.cartItems) {
+                            row.cartItems.total = row.cartItems.price * row.cartItems.quantity;
+                            return <TableRow key={row.cartItems._id}>
+                                {properties.map(p => <TableCell align="left" key={`${p}cell`}
+                                >{String(row.cartItems[p]).toUpperCase()}</TableCell>)}
+                            </TableRow>
+                        }else{
+                            return <TableRow key={row._id}>
+                                {properties.map(p => <TableCell align="left" key={`${p}cell`}
+                                >{p==='action'? row[p]():  String(row[p]).toUpperCase()}</TableCell>)}
+                            </TableRow>
+                        }
+
                     })}
                 </TableBody>
             </Table>

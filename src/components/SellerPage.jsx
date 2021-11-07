@@ -3,6 +3,7 @@ import {Container} from "@mui/material";
 import TableComponent from "./common/table";
 import {getSellerBooks} from "../services/bookService";
 import {authUser} from "../services/authService";
+import {Link} from "react-router-dom";
 
 class SellerPage extends Component {
 
@@ -51,9 +52,11 @@ class SellerPage extends Component {
 
     render() {
         document.title = "Seller Center";
+
         return (
             <Container>
                 <h1>Seller Page</h1>
+                {this.state.data.length<=0 && <Link to={'/sellercenter/new'}>Add new Books</Link>}
                 {this.state.data.length>0 && <TableComponent {...this.state} />}
             </Container>
         );

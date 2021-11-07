@@ -10,3 +10,15 @@ export function checkOut(payment){
 export function getMyOrders(){
     return http.get(`${apiEndPoint}/myOrders`);
 }
+
+export function cancelOrder(orderId){
+    return http.put(`${apiEndPoint}/cancelOrder`, {OrderId: orderId});
+}
+
+export function getDeliveries(){
+    return http.get(`${apiEndPoint}/deliveries`)
+}
+
+export function getOrders(){
+    return http.get(`${apiEndPoint}/orders`)
+}

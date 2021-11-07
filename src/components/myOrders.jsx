@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {getMyOrders} from "../services/orderService";
-import DeliveryPage from "./common/deliveryPage";
+import MyOrder from "./common/myOrder";
 import {Alert, AlertTitle, Container} from "@mui/material";
 import {Link} from "react-router-dom";
 
@@ -11,6 +11,10 @@ class MyOrders extends Component {
     }
 
     async componentDidMount() {
+        await this.setOrders();
+    }
+
+    setOrders=async()=>{
         try{
             const orders = (await getMyOrders()).data
             this.setState({orders})
@@ -45,7 +49,7 @@ class MyOrders extends Component {
         }
 
         return (
-            <DeliveryPage orders={orders}/>
+            <MyOrder setOrders={this.setOrders} {...this.props} orders={orders}/>
         );
     }
 }

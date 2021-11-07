@@ -15,8 +15,9 @@ import {getCartCount} from "./services/cartService";
 import Cart from "./components/cart";
 import Footer from "./components/footer";
 import PlaceOrder from "./components/placeOrder";
-import DeliveryPage from "./components/common/deliveryPage";
 import MyOrders from "./components/myOrders";
+import Delivery from "./components/delivery";
+import Orders from "./components/orders";
 
 class App extends Component {
 
@@ -70,7 +71,7 @@ class App extends Component {
                         <div style={{marginBottom: '80px'}}/>
                         <Switch>
                             <Route exact path={'/verification'} render={(props) => <VerificationPage {...props}/>}/>
-                            <Route path={'/'} render={(props) => <DeliveryPage {...props} />}/>
+                            <Route path={'/'} render={(props) => <Delivery user={this.state.user} {...props} />}/>
                         </Switch>
                     </Box>
                     <Footer style={{marginTop: "150px"}}/>
@@ -100,7 +101,8 @@ class App extends Component {
                                render={(props) => <Cart setCartCount={this.setCartCount} {...props}/>}/>
                         <Route exact path={'/placeorder'}
                                render={(props) => <PlaceOrder setCartCount={this.setCartCount} user={this.state.user} {...props}/>}/>
-                        <Route path={'/myOrders'} render={(props) => <MyOrders {...props} />}/>
+                        <Route path={'/myOrders'} render={(props) => <MyOrders user={this.state.user} setCartCount={this.setCartCount} {...props} />}/>
+                        <Route path={'/orders'} render={(props) => <Orders user={this.state.user} setCartCount={this.setCartCount} {...props} />}/>
                         <Route path={'/'} render={(props) => <HomePage {...props} />}/>
                     </Switch>
                 </Box>
