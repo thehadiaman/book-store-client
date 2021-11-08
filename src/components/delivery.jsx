@@ -13,6 +13,7 @@ import {ExpandMore} from "@mui/icons-material";
 import _ from "lodash";
 import TabComponent from "./common/tabComponent";
 import {getDeliveries} from "../services/orderService";
+import Svgs from "./common/svgs";
 
 class Delivery extends Component {
 
@@ -48,7 +49,7 @@ class Delivery extends Component {
 
 
     render() {
-        const head=['Title', 'Quantity', 'Seller', 'Seller Address', 'Seller ContactNumber'];
+        const head=['Packed', 'Title', 'Quantity', 'Seller', 'Seller Address', 'Seller ContactNumber'];
         let {value, deliveries} = this.state;
         deliveries = deliveries.reverse() || [];
 
@@ -84,29 +85,34 @@ class Delivery extends Component {
                                     <TableContainer component={Paper}>
                                         <Table aria-label="orders">
                                             <TableHead>
-                                                <TableRow style={{fontSize: 20}}>
+                                                <TableRow style={{fontSize: 30, fontWeight: 'bolder'}}>
                                                     {head.map(h=><TableCell key={h}>{h}</TableCell>)}
                                                 </TableRow>
                                             </TableHead>
                                             <TableBody>
-                                                {_.range(delivery.books? delivery.books.length: 0).map((a) => (
-                                                    <TableRow
+                                                {_.range(delivery.books? delivery.books.length: 0).map((a) => {
+                                                    const seller = delivery.sellers.find(s => s._id === delivery.books[a].seller._id);
+                                                    const {packed} = delivery.orders.items[a];
+                                                    return <TableRow
                                                         key={delivery.books[a]._id}
-                                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                        sx={{'&:last-child td, &:last-child th': {border: 0}}}
                                                     >
-                                                        <TableCell component="th" scope="row">
+                                                        <TableCell align={'center'} className={'no-space'}>{(new Svgs()).renderPacked(packed)}</TableCell>
+                                                        <TableCell className={'no-space-left'} component="th" scope="row">
                                                             {delivery.books[a].title.toUpperCase()}
                                                         </TableCell>
                                                         <TableCell>{delivery.orders.items[a].quantity}</TableCell>
-                                                        <TableCell>{delivery.sellers[a].name}</TableCell>
-                                                        <TableCell>{delivery.sellers[a].address}</TableCell>
-                                                        <TableCell>{delivery.sellers[a].phone}</TableCell>
+
+                                                        <TableCell>{seller.name}</TableCell>
+                                                        <TableCell>{seller.address}</TableCell>
+                                                        <TableCell>{seller.phone}</TableCell>
                                                     </TableRow>
-                                                ))}
+                                                })}
                                                 <TableRow
                                                     sx={{ '&:last-child td, &:last-child th': { border: 0, fontSize: 20 } }}
                                                 >
                                                     <TableCell><b>Total</b></TableCell>
+                                                    <TableCell/>
                                                     <TableCell/>
                                                     <TableCell/>
                                                     <TableCell/>

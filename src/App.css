@@ -73,3 +73,13 @@
 .space-width{
   width: 10px;
 }
+
+.no-space{
+  padding: 0;
+  margin: 0;
+}
+
+.no-space-left{
+  margin-left: 0;
+  padding-left: 0;
+}

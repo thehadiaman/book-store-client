@@ -2,7 +2,6 @@ import React from "react";
 import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 
 function Lists ({rows, head, properties}) {
-    console.log(rows);
     return (
         <TableContainer>
             <Table aria-label="simple table" className={'table-list'}>
@@ -20,9 +19,9 @@ function Lists ({rows, head, properties}) {
                                 >{String(row.cartItems[p]).toUpperCase()}</TableCell>)}
                             </TableRow>
                         }else{
-                            return <TableRow key={row._id}>
-                                {properties.map(p => <TableCell align="left" key={`${p}cell`}
-                                >{p==='action'? row[p]():  String(row[p]).toUpperCase()}</TableCell>)}
+                            return <TableRow key={`${row._id}${Math.random()}`}>
+                                {properties.map(p => <TableCell align="left" key={`${p}`}
+                                >{p==='action'? row[p](row._id, row.OrderId, row.packed, row.bookTitle.toUpperCase()):  String(row[p]).toUpperCase()}</TableCell>)}
                             </TableRow>
                         }
 

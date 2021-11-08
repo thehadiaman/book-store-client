@@ -22,3 +22,7 @@ export function getDeliveries(){
 export function getOrders(){
     return http.get(`${apiEndPoint}/orders`)
 }
+
+export function pack(bookId, orderId){
+    return http.put(`${apiEndPoint}/packBook`, {bookId: bookId, orderId: orderId});
+}
