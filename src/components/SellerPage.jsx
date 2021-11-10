@@ -34,6 +34,12 @@ class SellerPage extends Component {
                 label: 'Ratings',
             },
             {
+                id: 'stock',
+                numeric: true,
+                disablePadding: false,
+                label: 'Stock',
+            },
+            {
                 id: 'sales',
                 numeric: true,
                 disablePadding: false,

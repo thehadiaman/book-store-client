@@ -10,10 +10,9 @@ class TabComponent extends Svgs {
     }
 
     render() {
-        const {value, user} = this.props;
-        const width = (user && user.type!=='delivery_partner')?"20%":"25%";
+        const {value} = this.props;
         const style={
-            width: width
+            width: "20%"
         }
 
         return (
@@ -23,7 +22,7 @@ class TabComponent extends Svgs {
                     <Tab style={style} icon={this.renderPackedIcon(value==='packed')} label="packed" value={'packed'} />
                     <Tab style={style} icon={this.renderShippedIcon(value==='shipped')} label="shipped" value={'shipped'} />
                     <Tab style={style} icon={this.renderDeliveredIcon(value==='delivered')} label="delivered" value={'delivered'} />
-                    {user.type!=='delivery_partner' && <Tab style={value==='cancelled'?{width: '20%', color: 'red'}:style} icon={this.renderCancelledIcon(value==='cancelled')} label='cancelled' value={'cancelled'} />}
+                    <Tab style={value==='cancelled'?{width: '20%', color: 'red'}:style} icon={this.renderCancelledIcon(value==='cancelled')} label='cancelled' value={'cancelled'} />
                 </Tabs>
             </Container>
         );

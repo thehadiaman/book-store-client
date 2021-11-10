@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {
     Accordion,
     AccordionDetails,
-    AccordionSummary,
+    AccordionSummary, Button,
     Chip,
     Container,
     Grid,
@@ -12,7 +12,7 @@ import {
 import {ExpandMore} from "@mui/icons-material";
 import _ from "lodash";
 import TabComponent from "./common/tabComponent";
-import {getDeliveries} from "../services/orderService";
+import {changeStatus, getDeliveries} from "../services/orderService";
 import Svgs from "./common/svgs";
 
 class Delivery extends Component {
@@ -23,10 +23,17 @@ class Delivery extends Component {
     }
 
     async componentDidMount() {
-        const deliveries = (await getDeliveries()).data;
-        this.setState({deliveries});
+        await this.setDeliveries();
     }
 
+    setDeliveries=async()=>{
+        try{
+            const deliveries = (await getDeliveries()).data;
+            this.setState({deliveries});
+        }catch (ex) {
+            console.log(ex);
+        }
+    }
 
     capitalize=(string)=>{
         let lowerCase = string.toLowerCase();
@@ -47,6 +54,19 @@ class Delivery extends Component {
         this.setState({value});
     }
 
+    getStatusButtonName=(status)=>{
+        return (status==='packed'&&'Ship')||(status==='shipped'&&'Deliver');
+    }
+
+    setStatus=async(orderId)=>{
+        try{
+            const status = (await changeStatus(orderId)).data;
+            console.log(status);
+            await this.setDeliveries();
+        }catch (ex) {
+            console.log(ex);
+        }
+    }
 
     render() {
         const head=['Packed', 'Title', 'Quantity', 'Seller', 'Seller Address', 'Seller ContactNumber'];
@@ -123,6 +143,9 @@ class Delivery extends Component {
                                     </TableContainer>
                                 </Grid>
                             </Grid>
+                            {(delivery.orders && (delivery.orders.status==='packed'||delivery.orders.status==='shipped')) &&
+                            <Button style={{margin: "10px 0 10px 10px", float: "right"}} variant={"contained"} onClick={()=>this.setStatus(delivery.orders.OrderId)}
+                                    color={this.getStatusColor(delivery.orders.status)}>{this.getStatusButtonName(delivery.orders.status)}</Button>}
                         </AccordionDetails>
                     </Accordion>
                 })}

@@ -21,7 +21,7 @@ function Lists ({rows, head, properties}) {
                         }else{
                             return <TableRow key={`${row._id}${Math.random()}`}>
                                 {properties.map(p => <TableCell align="left" key={`${p}`}
-                                >{p==='action'? row[p](row._id, row.OrderId, row.packed, row.bookTitle.toUpperCase()):  String(row[p]).toUpperCase()}</TableCell>)}
+                                >{p==='action'? row[p](row._id, row.OrderId, row.packed !== undefined, row.bookTitle.toUpperCase()):  String(row[p]).toUpperCase()}</TableCell>)}
                             </TableRow>
                         }
 

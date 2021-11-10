@@ -26,3 +26,7 @@ export function getOrders(){
 export function pack(bookId, orderId){
     return http.put(`${apiEndPoint}/packBook`, {bookId: bookId, orderId: orderId});
 }
+
+export function changeStatus(orderId){
+    return http.put(`${apiEndPoint}/changeStatus`, {orderId: orderId});
+}

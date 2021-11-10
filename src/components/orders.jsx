@@ -3,13 +3,15 @@ import {Button, Container} from "@mui/material";
 import {getOrders, pack} from "../services/orderService";
 import Lists from "./common/list";
 import Snack from "./common/snack";
+import TabComponent from "./common/tabComponent";
 
 class Orders extends Component {
 
     state={
         rows: [],
         snackState: false,
-        snackData: {}
+        snackData: {},
+        value: 'ordered'
     }
 
     async componentDidMount() {
@@ -43,8 +45,12 @@ class Orders extends Component {
         }
     }
 
+    setTabValue=(event, value)=>{
+        this.setState({value});
+    }
+
     render() {
-        let {rows, snackState, snackData} = this.state;
+        let {rows, snackState, snackData, value} = this.state;
 
         for (let a=0;a<rows.length;a++){
             rows[a].action = (bookId, orderId, packed, name)=>{
@@ -53,14 +59,18 @@ class Orders extends Component {
         }
 
         const props = {
-            rows: rows,
-            head:['Title', 'Quantity', 'Delivery Partner Name', 'Delivery Partner Phone', 'Total Cost', 'Action'],
-            properties:['bookTitle', 'quantity', 'deliveryPartnerName', 'deliveryPartnerPhone', 'totalCost', 'action']
+            rows: rows.filter(r=>{
+                if(r.status==='ordered'&&r.packed) r.status = "packed"
+                return r.status===value
+            }),
+            head:['Title', 'Quantity', 'Delivery Partner Name', 'Delivery Partner Phone', 'Total Cost', (value==='ordered'?'Action': 'Status')],
+            properties:['bookTitle', 'quantity', 'deliveryPartnerName', 'deliveryPartnerPhone', 'totalCost', (value==='ordered'?'action': 'status')]
         }
         return (
             <Container>
+                <TabComponent value={value} handleChange={this.setTabValue} {...this.props}/>
                 <Lists {...props}/>
-                {snackState && (snackData.error || snackData.data) && <Snack severity={snackData.error? "error": "primary"} handleSnackClose={this.handleSnackClose} snackState={snackState} snackMessage={snackData.error || snackData.data}/>}
+                {snackState && (snackData.error || snackData.data) && <Snack severity={snackData.error? "error": "success"} handleSnackClose={this.handleSnackClose} snackState={snackState} snackMessage={snackData.error || snackData.data}/>}
             </Container>
         );
     }

@@ -266,6 +266,7 @@ class TableComponent extends Component {
                                                 )}</TableCell>
                                                 <TableCell>{row.price}</TableCell>
                                                 <TableCell>{row.rating}</TableCell>
+                                                <TableCell>{row.stock}</TableCell>
                                                 <TableCell>{row.sales}</TableCell>
                                             </TableRow>
                                         );
