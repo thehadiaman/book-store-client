@@ -35,7 +35,7 @@ class Form extends Component{
         this.setState({inputs, errors});
     }
 
-    renderInputs = (inputs, extra)=>{
+    renderInputs = (inputs, extra, disabled=false)=>{
         const {errors} = this.state;
         return (
             <React.Fragment>
@@ -49,6 +49,7 @@ class Form extends Component{
                                 name={input.name}
                                 value={this.state.inputs.find(i=>i.name===input.name).value}
                                 label="Type"
+                                disabled={disabled}
                                 onChange={this.handleChange}
                                 renderValue={value=>value}
                             >
@@ -75,6 +76,7 @@ class Form extends Component{
                         value={this.state.inputs.find(i=>i.name===input.name).value}
                         label={input.placeholder}
                         title={input.placeholder}
+                        disabled={disabled}
                         style={{marginBottom: '15px'}}
                         onChange={this.handleChange}
                     />})}

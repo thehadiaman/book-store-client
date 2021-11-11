@@ -80,10 +80,10 @@ class Book extends CommonBook {
 
         return (
             <Grid container spacing={{ xs: 2, md: 12, lg: 6}} columns={{ xs: 12, sm: 12, md: 12, lg:12 }}>
-                <Grid item xs={12} sm={6} md={6} lg={4}>
+                <Grid item xs={12} sm={12} md={4} lg={4}>
                     {this.renderImage(newBook? this.getImage(): book.image)}
                 </Grid>
-                <Grid item xs={12} sm={6} md={6} lg={8}>
+                <Grid item xs={12} sm={12} md={8} lg={8}>
                     {!newBook ? this.renderBookDetails(book): this.renderBookAdd(inputs, saveButton, editBook)}
                 </Grid>
             </Grid>

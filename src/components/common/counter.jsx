@@ -47,7 +47,7 @@ class Counter extends Component {
         }
 
         const addCart = ()=>{
-            return <Button onClick={()=>this.handleIncrement(1)} variant={'contained'} style={{width: '100%'}} color={'warning'}>Add to cart</Button>;
+            return <Button disabled={!this.props.login} title={this.props.login?"Login to add to cart.": "Add to cart"} onClick={()=>this.handleIncrement(1)} variant={'contained'} style={{width: '100%'}} color={'warning'}>Add to cart</Button>;
         }
 
         return (quantity>0? addCount(): addCart());

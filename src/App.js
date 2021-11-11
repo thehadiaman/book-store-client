@@ -22,7 +22,6 @@ import Orders from "./components/orders";
 class App extends Component {
 
     state = {
-        currentLink: window.location.pathname,
         login: false,
         user: {},
         cartCount: 0
@@ -45,11 +44,6 @@ class App extends Component {
         }
     }
 
-
-    handleLinkChange = (link) => {
-        this.setState({currentLink: link});
-    }
-
     handleLogin = () => {
         this.setState({login: true})
     }
@@ -67,14 +61,14 @@ class App extends Component {
             return (
                 <BrowserRouter>
                     <Box sx={{flexGrow: 1}}>
-                        <TopNavBar handleLinkChange={this.handleLinkChange} {...this.state}/>
+                        <TopNavBar {...this.state}/>
                         <div style={{marginBottom: '80px'}}/>
                         <Switch>
                             <Route exact path={'/verification'} render={(props) => <VerificationPage {...props}/>}/>
                             <Route path={'/'} render={(props) => <Delivery user={this.state.user} {...props} />}/>
                         </Switch>
                     </Box>
-                    <Footer style={{marginTop: "150px"}}/>
+                    <Footer/>
                 </BrowserRouter>
             )
         }
@@ -82,20 +76,20 @@ class App extends Component {
         return (
             <BrowserRouter>
                 <Box sx={{flexGrow: 1}}>
-                    <TopNavBar handleLinkChange={this.handleLinkChange} {...this.state}/>
+                    <TopNavBar {...this.state}/>
                     <div style={{marginBottom: '80px'}}/>
                     <Switch>
                         <Route exact path={'/login'} render={(props) => <LoginPage
-                            handleLinkChange={this.handleLinkChange} {...props}/>}/>
+                            {...props}/>}/>
                         <Route exact path={'/signup'} render={(props) => <SignupPage {...props}/>}/>
                         <Route exact path={'/forgetpassword'}
                                render={(props) => <ForgetPasswordPage handleLogin={this.handleLogin}
-                                                                      handleLinkChange={this.handleLinkChange} {...props}/>}/>
+                                                                      {...props}/>}/>
                         <Route exact path={'/verification'} render={(props) => <VerificationPage {...props}/>}/>
                         <Route exact path={'/sellercenter/new'}
                                render={(props) => <BookPage newBook={true} {...props}/>}/>
                         <Route exact path={'/book/:id'}
-                               render={(props) => <BookPage setCartCount={this.setCartCount} {...props}/>}/>
+                               render={(props) => <BookPage user={this.state.user} login={this.state.login} setCartCount={this.setCartCount} {...props}/>}/>
                         <Route exact path={'/sellercenter'} render={(props) => <SellerPage {...props}/>}/>
                         <Route exact path={'/cart'}
                                render={(props) => <Cart setCartCount={this.setCartCount} {...props}/>}/>
@@ -103,7 +97,7 @@ class App extends Component {
                                render={(props) => <PlaceOrder setCartCount={this.setCartCount} user={this.state.user} {...props}/>}/>
                         <Route path={'/myOrders'} render={(props) => <MyOrders user={this.state.user} setCartCount={this.setCartCount} {...props} />}/>
                         <Route path={'/orders'} render={(props) => <Orders user={this.state.user} setCartCount={this.setCartCount} {...props} />}/>
-                        <Route path={'/'} render={(props) => <HomePage {...props} />}/>
+                        <Route path={'/'} render={(props) => <HomePage login={this.state.login} {...props} />}/>
                     </Switch>
                 </Box>
                 <Footer/>

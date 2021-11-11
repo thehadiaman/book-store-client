@@ -3,6 +3,7 @@ import Book from "./common/Book";
 import {Container} from "@mui/material";
 import {getBook} from "../services/bookService";
 import {getCart} from "../services/cartService";
+import Review from "./common/review";
 
 class BookPage extends Component {
 
@@ -31,6 +32,7 @@ class BookPage extends Component {
         return (
             <Container>
                 <Book setCartCount={this.props.setCartCount} {...this.props} {...this.state}/>
+                {!this.state.newBook && <Review {...this.props}/>}
             </Container>
         );
     }

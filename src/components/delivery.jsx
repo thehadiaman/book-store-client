@@ -72,6 +72,7 @@ class Delivery extends Component {
         const head=['Packed', 'Title', 'Quantity', 'Seller', 'Seller Address', 'Seller ContactNumber'];
         let {value, deliveries} = this.state;
         deliveries = deliveries.reverse() || [];
+        document.title = "Delivery Page";
 
         return (
             <Container style={{marginBottom: '150px'}}>

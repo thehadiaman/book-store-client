@@ -35,9 +35,9 @@ class BookCard extends CommonBook{
                         </Typography>
                     </CardContent>
                     <CardActions disableSpacing>
-                        <IconButton onClick={this.handleFavorite} aria-label="add to favorites">
-                            <FavoriteIcon color={favorite? 'error': 'inherit'}/>
-                        </IconButton>
+                        {this.props.login && <IconButton onClick={this.handleFavorite} aria-label="add to favorites">
+                            <FavoriteIcon color={favorite ? "error" : "inherit"}/>
+                        </IconButton>}
                         <IconButton aria-label="share">
                             <ShareIcon />
                         </IconButton>

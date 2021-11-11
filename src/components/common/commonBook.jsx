@@ -23,6 +23,7 @@ class CommonBook extends Form {
 
     renderBookDetails = (book)=>{
         const quantity = book.quantity;
+        const rating = book.rating||0;
         return <Card>
             <CardContent>
                 <Typography variant={'h5'} color="black">
@@ -40,7 +41,7 @@ class CommonBook extends Form {
                 <br/><br/>
 
                 <div style={{marginBottom: '10px'}}>
-                    <span className={'rating-text'}>Rating: </span> <Rating name="read-only" defaultValue={book.rating} precision={0.1} readOnly />
+                    <span className={'rating-text'}>Rating: </span> <Rating name="read-only" value={rating} precision={0.5} readOnly />
                 </div>
 
                 <div style={{marginBottom: '15px'}}>
@@ -59,7 +60,7 @@ class CommonBook extends Form {
                 </Typography>
 
                 <br/><br/>
-                {book._id!==undefined && <Counter setCartCount={this.props.setCartCount} id={book._id} quantity={quantity} />}
+                {book._id!==undefined && <Counter login={this.props.login} setCartCount={this.props.setCartCount} id={book._id} quantity={quantity} />}
             </CardContent>
         </Card>
     }

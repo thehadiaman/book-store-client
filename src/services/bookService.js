@@ -4,7 +4,7 @@ import config from './config.json';
 const apiEndPoint = `${config.URL}/books`;
 
 export function saveBook(body){
-    http.post(apiEndPoint, body);
+    return http.post(apiEndPoint, body);
 }
 
 export function getAllBook(){
@@ -19,6 +19,22 @@ export function getSellerBooks(id){
     return http.get(`${apiEndPoint}/seller/${id}`);
 }
 
-export function getBookByName(name){
-    return http.get(`${apiEndPoint}/findByName?title=${name}`);
+export function getBookReviews(bookId){
+    return http.get(`${apiEndPoint}/review/${bookId}`);
+}
+
+export function myReviewStatus(bookId){
+    return http.get(`${apiEndPoint}/myReview/${bookId}`);
+}
+
+export function reviewBook({bookId, heading, review}){
+    return http.post(`${apiEndPoint}/review`, {bookId, heading, review});
+}
+
+export function rateBook(bookId, rate){
+    return http.put(`${apiEndPoint}/rate/${bookId}`, {rate});
+}
+
+export function getMyRatings(bookId){
+    return http.get(`${apiEndPoint}/myRating/id/${bookId}`);
 }

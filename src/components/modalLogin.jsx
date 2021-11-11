@@ -72,7 +72,6 @@ class ModalLogin extends Form {
 
         const extra = <div>
             <span onClick={()=>{
-                this.props.handleLinkChange('/signup')
                 this.setState({open: false});
             }}>
                 <Link className={'link-x'} to={'/signup'}>Don't have an account? Sign Up</Link>
@@ -81,7 +80,6 @@ class ModalLogin extends Form {
             <br/>
             <br/>
             <span onClick={()=>{
-                this.props.handleLinkChange('/forgetpassword')
                 this.setState({open: false});
             }}><Link className={'link-x'} to={'/forgetpassword'}>Forgot password?</Link></span>
         </div>

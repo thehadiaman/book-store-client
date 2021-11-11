@@ -81,10 +81,10 @@ class MyOrder extends Component {
                                     {order.user && order.user[0].name}
                                 </Grid>
                                 <Grid item xs={6} sm={6} md={4} lg={3}>
-                                    {order.address}
+                                    {order.address}, {order.zip}
                                 </Grid>
-                                <Grid item xs={6} sm={6} md={4} lg={2}>
-                                    {order.zip}
+                                <Grid item xs={6} sm={6} md={4} lg={3}>
+                                    {order.phone}
                                 </Grid>
                                 <Grid item xs={6} sm={6} md={4} lg={2}>
                                     <Chip label={this.capitalize(order.status)} style={{fontSize: 15}} color={order.status? this.getStatusColor(order.status): 'default'} />

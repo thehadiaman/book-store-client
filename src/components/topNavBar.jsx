@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import {AppBar, Toolbar, Typography, Box, Button, IconButton, InputBase, Grid, Badge} from '@mui/material';
-import { styled, alpha } from '@mui/material/styles';
-import {Search as SearchIcon, ShoppingCart, OpenInBrowserOutlined as Signup, Sell as SellIcon} from '@mui/icons-material';
+import {AppBar, Toolbar, Typography, Box, Button, IconButton, Grid, Badge} from '@mui/material';
+import {ShoppingCart, OpenInBrowserOutlined as Signup, Sell as SellIcon} from '@mui/icons-material';
 import {Settings, Logout} from '@mui/icons-material';
 import ModalForm from './modalLogin';
 import Drawer from './common/drawer';
@@ -18,7 +17,7 @@ class TopNavBar extends Component {
             sub: [{name: 'settings', icon: <Settings fontSize="small" />}, {name: 'logout', icon: <Logout fontSize="small" />}]
         },
         menu_delivery_partner: {
-            main: [{name: 'Profile', link: '/profile'}, {name: 'Orders', link: '/orders'}],
+            main: [{name: 'Profile', link: '/profile'}],
             sub: [{name: 'settings', icon: <Settings fontSize="small" />}, {name: 'logout', icon: <Logout fontSize="small" />}]
         }
     };
@@ -27,56 +26,13 @@ class TopNavBar extends Component {
         return this.props.cartCount;
     }
 
-    handleSearch = (input)=>{
-        console.log(input.target.value);
-    }
-
     render() {
 
         const {login} = this.props;
 
-        const StyledInputBase = styled(InputBase)(({ theme }) => ({
-            color: 'inherit',
-            '& .MuiInputBase-input': {
-                padding: theme.spacing(1, 1, 1, 0),
-                paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-                transition: theme.transitions.create('width'),
-                width: '100%',
-                [theme.breakpoints.up('md')]: {
-                    width: '50ch',
-                },
-            },
-        }));
-
-        const Search = styled('div')(({ theme }) => ({
-            position: 'relative',
-            borderRadius: theme.shape.borderRadius,
-            backgroundColor: alpha(theme.palette.common.white, 0.15),
-            '&:hover': {
-                backgroundColor: alpha(theme.palette.common.white, 0.25),
-            },
-            marginRight: theme.spacing(2),
-            marginLeft: 0,
-            width: '100%',
-            [theme.breakpoints.up('sm')]: {
-                marginLeft: theme.spacing(3),
-                width: 'auto',
-            },
-        }));
-
-        const SearchIconWrapper = styled('div')(({ theme }) => ({
-            padding: theme.spacing(0, 2),
-            height: '100%',
-            position: 'absolute',
-            pointerEvents: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-        }));
-
         const LoginFalseNavBarMenu = <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <ModalForm handleLinkChange={this.props.handleLinkChange}/>
-            <Button onClick={()=>this.props.handleLinkChange('/signup')} startIcon={<Signup/>} component={Link} to={'/signup'} color='inherit'>Signup</Button>
+            <ModalForm/>
+            <Button startIcon={<Signup/>} component={Link} to={'/signup'} color='inherit'>Signup</Button>
         </Box>;
 
         const LoginTrueNavBarMenu = <Box>
@@ -119,22 +75,10 @@ class TopNavBar extends Component {
             <Box sx={{ flexGrow: 1 }}>
                 <AppBar position={'fixed'}>
                     <Toolbar>
-                        <Typography onClick={()=>this.props.handleLinkChange('/')} className={'nav-head'} variant={'h6'} component={'div'}>
+                        <Typography className={'nav-head'} variant={'h6'} component={'div'}>
                             <Box sx={{ display: { xs: 'none', lg: 'block', xl: 'none' } }}><Link to={'/'} style={{textDecoration: 'none', color: 'white'}}>BookStack</Link></Box>
                             <Box sx={{ display: { xs: 'block', lg: 'none', xl: 'block' } }}><Link to={'/'} style={{textDecoration: 'none', color: 'white'}}>BS</Link></Box>
                         </Typography>
-
-                        {(this.props.user.type!=='delivery_partner' && !['/login', '/signup', '/verification', '/forgetpassword', '/sellercenter',
-                            '/sellercenter/new', '/cart'].includes(this.props.currentLink) ) && <Search component={'div'} >
-                            <SearchIconWrapper>
-                                <SearchIcon/>
-                            </SearchIconWrapper>
-                            <StyledInputBase
-                                onChange={this.handleSearch}
-                                placeholder='Search…'
-                                inputProps={{'aria-label': 'search'}}
-                            />
-                        </Search>}
 
                         <Box sx={{ flexGrow: 1 }} />
 
@@ -149,7 +93,7 @@ class TopNavBar extends Component {
                                 color='inherit'
                                 aria-label='menu'
                             >
-                                <Drawer handleLinkChange={this.props.handleLinkChange}/>
+                                <Drawer/>
                             </IconButton>
                         </Box>}
                     </Toolbar>
