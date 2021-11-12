@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 axios.defaults.headers.common['x-auth-token'] = localStorage.getItem('jwtToken');
+axios.defaults.headers.delete = { "Content-Type": "application/json;charset=utf-8" };
 
 axios.interceptors.response.use(null, error=>{
     const ERR = error.response && error.response.status >=400 && error.response.status < 500;

@@ -6,6 +6,7 @@ import {Box, Table, TableBody, TableContainer, TableCell, TableHead, TablePagina
 import {Delete as DeleteIcon, Edit as EditIcon, Add as AddBoxIcon} from '@mui/icons-material';
 import { visuallyHidden } from '@mui/utils';
 import {Link} from "react-router-dom";
+import {deleteBooks} from "../../services/bookService";
 
 class TableComponent extends Component {
 
@@ -98,6 +99,14 @@ class TableComponent extends Component {
         return page > 0 ? Math.max(0, (1 + page) * rowsPerPage - this.state.rows.length) : 0;
     }
 
+    handleDelete = async(books)=>{
+        try{
+            await deleteBooks(books);
+        }catch (ex) {
+            console.log(ex.response? ex.response.data: ex);
+        }
+    }
+
     render() {
         const {selected, page, rowsPerPage, orderBy, order, headCells, rows} = this.state;
 
@@ -138,7 +147,7 @@ class TableComponent extends Component {
                     {
                         numSelected===1 && (
                             <Tooltip title="Edit">
-                                <IconButton onClick={()=>{console.log(selected)}}>
+                                <IconButton onClick={()=>this.props.history.push(`/book/edit/${selected[0]}`)}>
                                     <EditIcon fontSize={'large'} />
                                 </IconButton>
                             </Tooltip>
@@ -147,7 +156,7 @@ class TableComponent extends Component {
 
                     {numSelected > 0 ? (
                         <Tooltip title="Delete">
-                            <IconButton onClick={()=>{console.log(selected)}}>
+                            <IconButton onClick={()=>this.handleDelete(selected)}>
                                 <DeleteIcon fontSize={'large'} />
                             </IconButton>
                         </Tooltip>

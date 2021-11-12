@@ -9,7 +9,8 @@ class BookCard extends CommonBook{
         _id: this.props._id,
         image: this.props.image,
         title: this.props.title,
-        favorite: this.props.favorite
+        favorite: this.props.favorite,
+        rating: this.props.rating
     }
 
     handleBookClick = (id)=>{
@@ -17,7 +18,7 @@ class BookCard extends CommonBook{
     }
 
     render() {
-        const {_id, image, title, favorite} = this.state;
+        const {_id, image, title, favorite, rating} = this.state;
         return (
             <Grid item xs={12} sm={6} md={4} lg={3}>
                 <Card sx={{ maxWidth: 345 }}>
@@ -42,9 +43,9 @@ class BookCard extends CommonBook{
                             <ShareIcon />
                         </IconButton>
                         <div style={{width: '30px'}}>
-                            4.7
+                            {rating}
                         </div>
-                        <Rating name="read-only" defaultValue={4.7} precision={0.1} readOnly />
+                        <Rating name="read-only" defaultValue={rating} precision={0.5} readOnly />
                     </CardActions>
                 </Card>
             </Grid>

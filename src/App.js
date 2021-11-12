@@ -88,6 +88,8 @@ class App extends Component {
                         <Route exact path={'/verification'} render={(props) => <VerificationPage {...props}/>}/>
                         <Route exact path={'/sellercenter/new'}
                                render={(props) => <BookPage newBook={true} {...props}/>}/>
+                        <Route exact path={'/book/edit/:id'}
+                               render={(props) => <BookPage edit={true} user={this.state.user} login={this.state.login} setCartCount={this.setCartCount} {...props}/>}/>
                         <Route exact path={'/book/:id'}
                                render={(props) => <BookPage user={this.state.user} login={this.state.login} setCartCount={this.setCartCount} {...props}/>}/>
                         <Route exact path={'/sellercenter'} render={(props) => <SellerPage {...props}/>}/>

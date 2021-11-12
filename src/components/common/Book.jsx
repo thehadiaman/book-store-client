@@ -2,25 +2,16 @@ import React from "react";
 import {Button, Grid} from "@mui/material";
 import CommonBook from "./commonBook";
 import Joi from 'joi-browser';
-import {saveBook} from "../../services/bookService";
+import {saveBook, updateBook} from "../../services/bookService";
 
 class Book extends CommonBook {
 
     state={
         newBook: this.props.newBook,
-        editBook: false,
-        inputs: [
-            {name: 'title', type: 'text', placeholder: 'Title', value: ''},
-            {name: 'image', type: 'text', placeholder: 'Image URL', value: ''},
-            {name: 'author', type: 'text', placeholder: 'Author', value: ''},
-            {name: 'description', type: 'multiline', placeholder: 'Description', value: ''},
-            {name: 'price', type: 'number', placeholder: 'Price', value: ''},
-            {name: 'discount', type: 'number', placeholder: 'Discount', value: ''},
-            {name: 'stock', type: 'number', placeholder: 'Stock', value: ''},
-        ],
+        editBook: this.props.edit,
+        inputs: this.props.inputs,
         errors: {}
     }
-
 
     doSubmit=async()=>{
         try{
@@ -28,19 +19,24 @@ class Book extends CommonBook {
                 await saveBook(this.getData());
                 this.props.history.push('/sellercenter');
             }
-            else await saveBook(this.getData());
+            else if(this.state.editBook){
+                await updateBook(this.getData(), this.props.match.params.id);
+                this.setState({editBook: false});
+                this.props.history.replace(`/book/${this.props.match.params.id}`);
+
+            }
         }catch (ex) {
-            console.log(ex);
             console.log(ex.response.data);
         }
     }
 
     getData=()=>{
-        const properties = ['title', 'image', 'author', 'description', 'price', 'discount', 'stock'];
+        const properties = ['title', 'image', 'author', 'description', 'price', 'stock'];
         const data = {};
         for(let a=0;a<properties.length;a++){
-            if(properties[a]==='author')
-                data[properties[a]] = this.state.inputs.find(input=>input.name===properties[a]).value.split(',')
+            if(properties[a]==='author') {
+                data[properties[a]] = this.state.inputs.find(input => input.name === properties[a]).value.split(",");
+            }
             else
                 data[properties[a]] = this.state.inputs.find(input=>input.name===properties[a]).value;
         }
@@ -53,8 +49,7 @@ class Book extends CommonBook {
         author: Joi.array().min(1).max(100).required(),
         description: Joi.string().min(20).max(700).required(),
         price: Joi.number().min(1).max(25000).required(),
-        stock: Joi.number().min(1).max(25000).required(),
-        discount: Joi.number().min(0).max(99).required()
+        stock: Joi.number().min(1).max(25000).required()
     }
 
     getImage = ()=>{
@@ -64,7 +59,7 @@ class Book extends CommonBook {
     }
 
     getTitle = ()=>{
-        const title = this.state.newBook? this.state.inputs.find(input=>input.name==='title').value: this.props.book.title;
+        const title = (this.state.newBook||this.state.editBook)? this.state.inputs.find(input=>input.name==='title').value: this.props.book.title;
         if(title==="" || title===undefined) {
             document.title = "New Book";
             return "New Book";
@@ -81,10 +76,10 @@ class Book extends CommonBook {
         return (
             <Grid container spacing={{ xs: 2, md: 12, lg: 6}} columns={{ xs: 12, sm: 12, md: 12, lg:12 }}>
                 <Grid item xs={12} sm={12} md={4} lg={4}>
-                    {this.renderImage(newBook? this.getImage(): book.image)}
+                    {this.renderImage((newBook||editBook)? this.getImage(): book.image)}
                 </Grid>
                 <Grid item xs={12} sm={12} md={8} lg={8}>
-                    {!newBook ? this.renderBookDetails(book): this.renderBookAdd(inputs, saveButton, editBook)}
+                    {!newBook&&!editBook? this.renderBookDetails(book): this.renderBookAdd(inputs, saveButton, editBook, book)}
                 </Grid>
             </Grid>
         );

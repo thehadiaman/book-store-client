@@ -38,3 +38,11 @@ export function rateBook(bookId, rate){
 export function getMyRatings(bookId){
     return http.get(`${apiEndPoint}/myRating/id/${bookId}`);
 }
+
+export function updateBook(body, bookId){
+    return http.put(`${apiEndPoint}/${bookId}`, body);
+}
+
+export function deleteBooks(books){
+    return http.delete(apiEndPoint, {data: books});
+}

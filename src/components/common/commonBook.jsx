@@ -34,8 +34,6 @@ class CommonBook extends Form {
 
                 <div style={{marginBottom: '10px'}}>
                     <span  style={{fontSize: '20px'}}>Rs. {book.price}</span>
-                    <br/>
-                    <span style={{'color': 'red'}}>-{book.discount}%</span>
                 </div>
 
                 <br/><br/>

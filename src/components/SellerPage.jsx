@@ -63,7 +63,7 @@ class SellerPage extends Component {
             <Container>
                 <h1>Seller Page</h1>
                 {this.state.data.length<=0 && <Link to={'/sellercenter/new'}>Add new Books</Link>}
-                {this.state.data.length>0 && <TableComponent {...this.state} />}
+                {this.state.data.length>0 && <TableComponent {...this.props} {...this.state} />}
             </Container>
         );
     }

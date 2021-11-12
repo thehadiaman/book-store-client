@@ -67,8 +67,9 @@ class Review extends Form {
 
     handleRatingChange=async(event, value)=>{
         try{
-            await rateBook(this.props.match.params.id, value)
-            await this.setData()
+            this.setState({rating: value});
+            await rateBook(this.props.match.params.id, value);
+            await this.setData();
         }catch (ex) {
             console.log(ex);
         }
@@ -79,7 +80,7 @@ class Review extends Form {
 
         const title = !myReview? "My Review": "You need to buy the book to add your review.";
 
-        const submitBtn = <Button disabled={this.state.myReview} variant={'contained'} type={'Submit'} color={'primary'} style={{float: 'right'}}>Submit</Button>;
+        const submitBtn = <Button disabled={this.state.myReview&&true} variant={'contained'} type={'Submit'} color={'primary'} style={{float: 'right'}}>Submit</Button>;
 
         return (
             <div style={{marginTop: '50px'}}>
