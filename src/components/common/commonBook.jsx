@@ -7,10 +7,6 @@ class CommonBook extends Form {
 
     state={}
 
-    handleFavorite=()=>{
-        this.setState({favorite: !this.state.favorite})
-    }
-
     renderImage = (url)=>{
         return <Card sx={{ maxWidth: 345 }}>
             <CardMedia

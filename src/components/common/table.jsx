@@ -101,7 +101,16 @@ class TableComponent extends Component {
 
     handleDelete = async(books)=>{
         try{
-            await deleteBooks(books);
+            if(window.confirm("Do you wand to delete the book ?.")){
+                await deleteBooks(books);
+                const rows = this.state.rows;
+                for(let id of books){
+                    const row = rows.find(row=>row._id===id);
+                    const indexOfRow = rows.indexOf(row);
+                    rows.splice(indexOfRow, 1);
+                }
+                this.setState({rows, selected: []});
+            }
         }catch (ex) {
             console.log(ex.response? ex.response.data: ex);
         }

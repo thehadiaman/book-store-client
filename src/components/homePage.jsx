@@ -20,6 +20,11 @@ class HomePage extends Component {
 
 
     render() {
+        const {user, history} = this.props;
+        if(user.name && !user.validate.valid){
+            history.replace('/verification');
+        }
+
         document.title = "Home";
         const {books} = this.state;
 

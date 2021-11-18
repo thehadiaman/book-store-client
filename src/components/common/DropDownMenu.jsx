@@ -70,7 +70,7 @@ class DropDownMenu extends Component {
 
                     {this.props.menu.sub && <Divider/>}
 
-                    {this.props.menu.sub && this.props.menu.sub.map(m=><Link  key={m.name} to={'/'} style={{textDecoration: 'none', color: 'black'}}>
+                    {this.props.menu.sub && this.props.menu.sub.map(m=><Link  key={m.name} to={m.link||'/'} style={{textDecoration: 'none', color: 'black'}}>
                         <MenuItem>
                             <ListItemIcon>
                                 {m.icon}

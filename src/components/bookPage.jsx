@@ -57,6 +57,12 @@ class BookPage extends Component {
 
 
     render() {
+        const {user, history} = this.props;
+        if(user.name && !user.validate.valid){
+            history.replace('/verification');
+        }else if((this.state.newBook||this.props.edit) && (!user.name || user.type!=='seller')){
+            history.replace('/');
+        }
         return (
             <Container>
                 <Book setCartCount={this.props.setCartCount} {...this.props} {...this.state}/>

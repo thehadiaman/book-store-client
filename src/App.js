@@ -18,6 +18,7 @@ import PlaceOrder from "./components/placeOrder";
 import MyOrders from "./components/myOrders";
 import Delivery from "./components/delivery";
 import Orders from "./components/orders";
+import Logout from "./components/logout";
 
 class App extends Component {
 
@@ -53,10 +54,12 @@ class App extends Component {
         this.setState({cartCount});
     }
 
+    logout=()=>{
+        this.setState({user: {}, login: false});
+    }
 
     render() {
         const {user} = this.state;
-
         if (user.type === 'delivery_partner') {
             return (
                 <BrowserRouter>
@@ -65,7 +68,9 @@ class App extends Component {
                         <div style={{marginBottom: '80px'}}/>
                         <Switch>
                             <Route exact path={'/verification'} render={(props) => <VerificationPage {...props}/>}/>
-                            <Route path={'/'} render={(props) => <Delivery user={this.state.user} {...props} />}/>
+                            <Route exact path={'/logout'} render={(props)=> <Logout logout={this.logout} {...props}/>} />
+                            <Route exact path={'/'} render={(props) => <Delivery user={this.state.user} {...props} />}/>
+                            <Route render={()=><h1>404</h1>}/>
                         </Switch>
                     </Box>
                     <Footer/>
@@ -80,29 +85,32 @@ class App extends Component {
                     <div style={{marginBottom: '80px'}}/>
                     <Switch>
                         <Route exact path={'/login'} render={(props) => <LoginPage
+                            user={user}
                             {...props}/>}/>
-                        <Route exact path={'/signup'} render={(props) => <SignupPage {...props}/>}/>
+                        <Route exact path={'/signup'} render={(props) => <SignupPage user={user} {...props}/>}/>
                         <Route exact path={'/forgetpassword'}
-                               render={(props) => <ForgetPasswordPage handleLogin={this.handleLogin}
+                               render={(props) => <ForgetPasswordPage user={user} handleLogin={this.handleLogin}
                                                                       {...props}/>}/>
-                        <Route exact path={'/verification'} render={(props) => <VerificationPage {...props}/>}/>
+                        <Route exact path={'/verification'} render={(props) => <VerificationPage user={user} {...props}/>}/>
                         <Route exact path={'/sellercenter/new'}
-                               render={(props) => <BookPage newBook={true} {...props}/>}/>
+                               render={(props) => <BookPage user={user} newBook={true} {...props}/>}/>
                         <Route exact path={'/book/edit/:id'}
-                               render={(props) => <BookPage edit={true} user={this.state.user} login={this.state.login} setCartCount={this.setCartCount} {...props}/>}/>
+                               render={(props) => <BookPage edit={true} user={user} login={this.state.login} setCartCount={this.setCartCount} {...props}/>}/>
                         <Route exact path={'/book/:id'}
-                               render={(props) => <BookPage user={this.state.user} login={this.state.login} setCartCount={this.setCartCount} {...props}/>}/>
-                        <Route exact path={'/sellercenter'} render={(props) => <SellerPage {...props}/>}/>
+                               render={(props) => <BookPage user={user} login={this.state.login} setCartCount={this.setCartCount} {...props}/>}/>
+                        <Route exact path={'/sellercenter'} render={(props) => <SellerPage user={user} {...props}/>}/>
                         <Route exact path={'/cart'}
-                               render={(props) => <Cart setCartCount={this.setCartCount} {...props}/>}/>
+                               render={(props) => <Cart user={user} setCartCount={this.setCartCount} {...props}/>}/>
                         <Route exact path={'/placeorder'}
-                               render={(props) => <PlaceOrder setCartCount={this.setCartCount} user={this.state.user} {...props}/>}/>
-                        <Route path={'/myOrders'} render={(props) => <MyOrders user={this.state.user} setCartCount={this.setCartCount} {...props} />}/>
-                        <Route path={'/orders'} render={(props) => <Orders user={this.state.user} setCartCount={this.setCartCount} {...props} />}/>
-                        <Route path={'/'} render={(props) => <HomePage login={this.state.login} {...props} />}/>
+                               render={(props) => <PlaceOrder setCartCount={this.setCartCount} user={user} {...props}/>}/>
+                        <Route exact path={'/myOrders'} render={(props) => <MyOrders user={user} setCartCount={this.setCartCount} {...props} />}/>
+                        <Route exact path={'/orders'} render={(props) => <Orders user={user} setCartCount={this.setCartCount} {...props} />}/>
+                        <Route exact path={'/logout'} render={(props)=> <Logout logout={this.logout} {...props}/>} />
+                        <Route exact path={'/'} render={(props) => <HomePage user={user} login={this.state.login} {...props} />}/>
+                        <Route render={()=><h1>404</h1>}/>
                     </Switch>
+                    <Footer {...this.state}/>
                 </Box>
-                <Footer/>
             </BrowserRouter>
         );
     }

@@ -24,7 +24,7 @@ class ModalQa extends Component {
 
     handleApprove=()=>{
         this.handleClose();
-        this.props.handleOrderCancel();
+        this.props.handleCancel();
     }
 
     render() {
@@ -50,17 +50,17 @@ class ModalQa extends Component {
                     aria-labelledby="parent-modal-title"
                     aria-describedby="parent-modal-description"
                 >
-                    <Box sx={{ ...style, width: "75%", padding: '10px' }}>
+                    <Box sx={{ ...style, padding: '10px', width: {xs: "80%", sm: "40%", md: "35%", lg:"25%"} }}>
                         <h2 id="parent-modal-title">{this.props.modalQHead}</h2>
                         <p id="parent-modal-description">
                             {this.props.modalQBody}
                         </p>
-                        <Grid container spacing={{ xs: 2, md: 3, lg: 3}} columns={{ xs: 12, sm: 12, md: 12, lg:12 }}>
-                            <Grid item xs={6} sm={6} md={6} lg={6}>
-                                <Button onClick={this.handleCancel} variant={'contained'} color={'error'}>Cancel</Button>
+                        <Grid container columns={{ xs: 12, sm: 12, md: 12, lg:12 }}>
+                            <Grid item xs={6} sm={6} md={6} lg={6} style={{align: 'center'}}>
+                                <Button onClick={this.handleCancel} variant={'contained'} color={'primary'}>Cancel</Button>
                             </Grid>
-                            <Grid item xs={6} sm={6} md={6} lg={6}>
-                                <Button onClick={this.handleApprove} variant={'contained'} color={'primary'}>Approve</Button>
+                            <Grid item xs={6} sm={6} md={6} lg={6} style={{align: 'center'}}>
+                                <Button onClick={this.handleApprove} style={{float:'right'}} variant={'contained'} color={'error'}>Approve</Button>
                             </Grid>
                         </Grid>
                     </Box>

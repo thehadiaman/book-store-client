@@ -57,6 +57,12 @@ class PlaceOrder extends CommonCart{
     }
 
     render() {
+        const {user, history} = this.props;
+        if(!user.name){
+            history.replace('/');
+        }else if(user.name && !user.validate.valid){
+            history.replace('/verification');
+        }
         const head = ['Title', 'Price', 'Quantity', 'Total'];
         const properties = ['title', 'price', 'quantity', 'total'];
         const {cartItems, snackState, errors} = this.state;

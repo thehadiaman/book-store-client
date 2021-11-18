@@ -1,6 +1,5 @@
 import React from 'react';
-import {Card, CardMedia, CardContent, CardActions, IconButton, Typography, Rating, Grid} from '@mui/material';
-import {Favorite as FavoriteIcon, Share as ShareIcon} from '@mui/icons-material';
+import {Card, CardMedia, CardContent, CardActions, Typography, Rating, Grid} from '@mui/material';
 import CommonBook from "./commonBook";
 
 class BookCard extends CommonBook{
@@ -9,7 +8,6 @@ class BookCard extends CommonBook{
         _id: this.props._id,
         image: this.props.image,
         title: this.props.title,
-        favorite: this.props.favorite,
         rating: this.props.rating
     }
 
@@ -18,7 +16,7 @@ class BookCard extends CommonBook{
     }
 
     render() {
-        const {_id, image, title, favorite, rating} = this.state;
+        const {_id, image, title, rating} = this.state;
         return (
             <Grid item xs={12} sm={6} md={4} lg={3}>
                 <Card sx={{ maxWidth: 345 }}>
@@ -36,12 +34,6 @@ class BookCard extends CommonBook{
                         </Typography>
                     </CardContent>
                     <CardActions disableSpacing>
-                        {this.props.login && <IconButton onClick={this.handleFavorite} aria-label="add to favorites">
-                            <FavoriteIcon color={favorite ? "error" : "inherit"}/>
-                        </IconButton>}
-                        <IconButton aria-label="share">
-                            <ShareIcon />
-                        </IconButton>
                         <div style={{width: '30px'}}>
                             {rating}
                         </div>

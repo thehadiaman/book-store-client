@@ -1,7 +1,6 @@
 import React from "react";
-import {Card, CardActionArea, CardContent, CardMedia, Grid, IconButton, Typography} from "@mui/material";
+import {Card, CardActionArea, CardContent, CardMedia, Grid, Typography} from "@mui/material";
 import Counter from "./counter";
-import {Delete} from "@mui/icons-material";
 import {Link} from "react-router-dom";
 
 function CartCard({item, setCartCount, setCartItem}) {
@@ -23,9 +22,6 @@ function CartCard({item, setCartCount, setCartItem}) {
                 </Grid>
                 <Grid item xs={9} sm={10} md={10} lg={9}>
                     <CardContent>
-                        <IconButton className={'cart-remove-btn'} aria-label="delete" title={'remove'} color={'error'}  size="large">
-                            <Delete fontSize="inherit" />
-                        </IconButton>
                         <Link to={`/book/${item._id}`} className={'link-title'}>
                             <Typography variant="p" component="div">
                                 {item.title.toUpperCase()}

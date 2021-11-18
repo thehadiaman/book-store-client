@@ -40,6 +40,10 @@ class LoginPage extends Form {
     }
 
     render() {
+        const {user, history} = this.props;
+        if(user.name){
+            history.replace('/');
+        }
         document.title = 'Login';
         const extra = <div>
             <Link className={'link-x'} to={'/signup'}>Don't have an account? Sign Up</Link>

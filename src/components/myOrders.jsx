@@ -24,6 +24,13 @@ class MyOrders extends Component {
     }
 
     render() {
+        const {user, history} = this.props;
+        if(!user.name){
+            history.replace('/');
+        }else if(user.name && !user.validate.valid){
+            history.replace('/verification');
+        }
+
         const {orders} = this.state;
         document.title = "My Orders";
 

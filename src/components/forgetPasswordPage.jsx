@@ -107,6 +107,11 @@ class ForgetPasswordPage extends Form{
     }
 
     render() {
+        const {user, history} = this.props;
+        if(user.name){
+            history.replace('/');
+        }
+
         const {activeStep, nextDisabled} = this.state;
         const {handleNext, handleReset, handleBack} = this;
 

@@ -130,7 +130,7 @@ class MyOrder extends Component {
                                         (value!=='cancelled' && value!=='delivered') && <div style={{paddingBottom: '30px', position: 'relative'}} onClick={()=>this.setOrderId(order.OrderId)}>
                                             <ModalQa
                                                 style={{position: 'absolute', right: '0', top: '5px'}}
-                                                handleOrderCancel={this.handleOrderCancel}
+                                                handleCancel={this.handleOrderCancel}
                                                 btnText={'Cancel Order'}
                                                 btnColor={'error'}
                                                 modalQHead={'Cancel order'}

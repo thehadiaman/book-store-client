@@ -14,11 +14,11 @@ class TopNavBar extends Component {
         searchInput: '',
         menu: {
             main: [{name: 'Profile', link: '/profile'}, {name: 'My Orders', link: '/myOrders'}],
-            sub: [{name: 'settings', icon: <Settings fontSize="small" />}, {name: 'logout', icon: <Logout fontSize="small" />}]
+            sub: [{name: 'settings', icon: <Settings fontSize="small" />}, {name: 'logout', link: '/logout', icon: <Logout fontSize="small" />}]
         },
         menu_delivery_partner: {
             main: [{name: 'Profile', link: '/profile'}],
-            sub: [{name: 'settings', icon: <Settings fontSize="small" />}, {name: 'logout', icon: <Logout fontSize="small" />}]
+            sub: [{name: 'settings', icon: <Settings fontSize="small" />}, {name: 'logout', link: '/logout', icon: <Logout fontSize="small" />}]
         }
     };
 

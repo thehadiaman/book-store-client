@@ -53,6 +53,10 @@ class VerificationPage extends Form {
     }
 
     render() {
+        const {user, history} = this.props;
+        if(!user.name || user.validate.valid){
+            history.replace('/');
+        }
         document.title = 'Verification';
         const {inputs, snackState, errors} = this.state;
         const extra = <div>

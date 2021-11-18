@@ -50,6 +50,13 @@ class Orders extends Component {
     }
 
     render() {
+        const {user, history} = this.props;
+        if(!user.name){
+            history.replace('/');
+        }else if(user.name && !user.validate.valid){
+            history.replace('/verification');
+        }
+
         let {rows, snackState, snackData, value} = this.state;
 
         for (let a=0;a<rows.length;a++){
