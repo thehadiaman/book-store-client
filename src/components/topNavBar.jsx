@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {AppBar, Toolbar, Typography, Box, Button, IconButton, Grid, Badge} from '@mui/material';
 import {ShoppingCart, OpenInBrowserOutlined as Signup, Sell as SellIcon} from '@mui/icons-material';
-import {Settings, Logout} from '@mui/icons-material';
+import {Logout} from '@mui/icons-material';
 import ModalForm from './modalLogin';
 import Drawer from './common/drawer';
 import {Link} from 'react-router-dom';
@@ -13,12 +13,12 @@ class TopNavBar extends Component {
     state={
         searchInput: '',
         menu: {
-            main: [{name: 'Profile', link: '/profile'}, {name: 'My Orders', link: '/myOrders'}],
-            sub: [{name: 'settings', icon: <Settings fontSize="small" />}, {name: 'logout', link: '/logout', icon: <Logout fontSize="small" />}]
+            main: this.props.user.type==='seller'?[{name: 'My Orders', link: '/myOrders'}, {name: 'orders', link: '/morders'}]: [{name: 'My Orders', link: '/myOrders'}],
+            sub: [{name: 'logout', link: '/logout', icon: <Logout fontSize="small" />}]
         },
         menu_delivery_partner: {
-            main: [{name: 'Profile', link: '/profile'}],
-            sub: [{name: 'settings', icon: <Settings fontSize="small" />}, {name: 'logout', link: '/logout', icon: <Logout fontSize="small" />}]
+            main: [],
+            sub: [{name: 'logout', link: '/logout', icon: <Logout fontSize="small" />}]
         }
     };
 

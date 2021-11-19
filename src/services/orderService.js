@@ -1,7 +1,6 @@
 import http from "./httpService";
-import config from './config.json';
 
-const apiEndPoint = `${config.URL}/order`;
+const apiEndPoint = '/order';
 
 export function checkOut(payment){
     return http.post(apiEndPoint, {payment: payment});

@@ -1,12 +1,11 @@
 import React, {Component} from "react";
-import {Card, CardActions, CardContent, IconButton, Rating, Skeleton, Typography} from "@mui/material";
-import {Favorite as FavoriteIcon, Share as ShareIcon} from "@mui/icons-material";
+import {Card, CardActions, CardContent, Rating, Skeleton, Typography} from "@mui/material";
 
 class SkeletonCard extends Component {
     render() {
         return (
             <Card sx={{ maxWidth: 345 }}>
-                <Skeleton variant="rectangular"height={300} animation="wave"/>
+                <Skeleton variant="rectangular" height={300} animation="wave"/>
                 <CardContent>
                     <Typography sx={{height: 60}} className={'pointer'} variant="body1" color="text.primary">
                         <Skeleton sx={{ bgcolor: 'grey' }} variant="rectangular" height={20} animation="wave" style={{marginBottom: '5px'}}/>
@@ -14,12 +13,6 @@ class SkeletonCard extends Component {
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
-                    <IconButton onClick={this.handleFavorite} aria-label="add to favorites">
-                        <FavoriteIcon color={'inherit'}/>
-                    </IconButton>
-                    <IconButton aria-label="share">
-                        <ShareIcon />
-                    </IconButton>
                     <div style={{width: '30px'}}>
                         0
                     </div>

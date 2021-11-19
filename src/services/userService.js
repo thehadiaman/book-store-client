@@ -1,7 +1,6 @@
 import http from './httpService';
-import config from './config.json';
 
-const apiEndPoint = `${config.URL}/users`
+const apiEndPoint = '/users';
 
 export function saveUser(body){
     return http.post(apiEndPoint, {name: body.name, email: body.email, address: body.address, phone: body.phone, zip: body.zip , type: body.type,

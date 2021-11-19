@@ -1,7 +1,6 @@
 import http from "./httpService";
-import config from './config.json';
 
-const apiEndPoint = `${config.URL}/cart`;
+const apiEndPoint = '/cart';
 
 export function addToCart(id, count){
     return http.put(`${apiEndPoint}/${id}`, {count: count});

@@ -1,7 +1,6 @@
 import http from "./httpService";
-import config from './config.json';
 
-const apiEndPoint = `${config.URL}/books`;
+const apiEndPoint = '/books';
 
 export function saveBook(body){
     return http.post(apiEndPoint, body);
