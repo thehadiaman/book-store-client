@@ -12,7 +12,7 @@ class TopNavBar extends Component {
 
     state={
         menu_seller: {
-            main: [{name: 'My Orders', link: '/myOrders'}, {name: 'orders', link: '/orders'}],
+            main: [{name: 'My Orders', link: '/myOrders'}, {name: 'Orders', link: '/orders'}],
             sub: [{name: 'logout', link: '/logout', icon: <Logout fontSize="small" />}]
         },
         menu_buyer: {
