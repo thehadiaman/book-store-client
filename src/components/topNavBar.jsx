@@ -11,9 +11,12 @@ import DropDownMenu from './common/DropDownMenu';
 class TopNavBar extends Component {
 
     state={
-        searchInput: '',
-        menu: {
-            main: this.props.user.type==='seller'?[{name: 'My Orders', link: '/myOrders'}, {name: 'orders', link: '/morders'}]: [{name: 'My Orders', link: '/myOrders'}],
+        menu_seller: {
+            main: [{name: 'My Orders', link: '/myOrders'}, {name: 'orders', link: '/orders'}],
+            sub: [{name: 'logout', link: '/logout', icon: <Logout fontSize="small" />}]
+        },
+        menu_buyer: {
+            main: [{name: 'My Orders', link: '/myOrders'}],
             sub: [{name: 'logout', link: '/logout', icon: <Logout fontSize="small" />}]
         },
         menu_delivery_partner: {
@@ -27,9 +30,8 @@ class TopNavBar extends Component {
     }
 
     render() {
-
-        const {login} = this.props;
-
+        const {login, user} = this.props;
+        const {menu_seller, menu_buyer, menu_delivery_partner} = this.state;
         const LoginFalseNavBarMenu = <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <ModalForm/>
             <Button startIcon={<Signup/>} component={Link} to={'/signup'} color='inherit'>Signup</Button>
@@ -37,7 +39,7 @@ class TopNavBar extends Component {
 
         const LoginTrueNavBarMenu = <Box>
             <Grid container columns={{xs: 12}}>
-                {(this.props.user.type==='seller' && this.props.user.validate.valid) && <Grid item xs={4}>
+                {(user.type==='seller' && user.validate.valid) && <Grid item xs={4}>
                     <Link to={'/sellercenter'}>
                         <IconButton title={"Seller Center"} size='large'>
                             <Badge badgeContent={0} color='error'>
@@ -47,7 +49,7 @@ class TopNavBar extends Component {
                     </Link>
 
                 </Grid>}
-                <Grid item xs={(this.props.user.type==='seller' && this.props.user.validate.valid) ? 4: 6}>
+                <Grid item xs={(user.type==='seller' && user.validate.valid) ? 4: 6}>
                     <Link to={'/cart'}>
                         <IconButton title={"Cart"} size='large'>
                             <Badge badgeContent={this.getCartCount()} color='error'>
@@ -56,8 +58,8 @@ class TopNavBar extends Component {
                         </IconButton>
                     </Link>
                 </Grid>
-                <Grid item xs={(this.props.user.type==='seller' && this.props.user.validate.valid)? 4: 6}>
-                    <DropDownMenu user={this.props.user} menu={this.state.menu}/>
+                <Grid item xs={(user.type==='seller' && user.validate.valid)? 4: 6}>
+                    <DropDownMenu user={user} menu={user.type==='seller'?menu_seller: menu_buyer}/>
                 </Grid>
             </Grid>
         </Box>;
@@ -65,7 +67,7 @@ class TopNavBar extends Component {
         const LoginTrueNavBarMenuDeliveryPartner = <Box>
             <Grid container columns={{xs: 12}}>
                 <Grid item xs={12}>
-                    <DropDownMenu user={this.props.user} menu={this.state.menu_delivery_partner}/>
+                    <DropDownMenu user={user} menu={menu_delivery_partner}/>
                 </Grid>
             </Grid>
         </Box>;
@@ -82,9 +84,9 @@ class TopNavBar extends Component {
 
                         <Box sx={{ flexGrow: 1 }} />
 
-                        {login? (this.props.user.type!=='delivery_partner' && LoginTrueNavBarMenu): LoginFalseNavBarMenu}
+                        {login? (user.type!=='delivery_pertner' && LoginTrueNavBarMenu): LoginFalseNavBarMenu}
 
-                        {this.props.user.type==='delivery_partner' && LoginTrueNavBarMenuDeliveryPartner}
+                        {user.type==='delivery_partner' && LoginTrueNavBarMenuDeliveryPartner}
 
                         {!login && <Box sx={{display: {xs: 'block', lg: 'none', md: 'none', xl: 'block'}}}>
                             <IconButton

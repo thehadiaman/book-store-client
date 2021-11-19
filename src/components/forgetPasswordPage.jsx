@@ -94,7 +94,6 @@ class ForgetPasswordPage extends Form{
         await this.handleNext();
         try{
             await resetPassword({code: this.getAllValues().code, email: this.getAllValues().email, password: this.getAllValues().password});
-            this.props.handleLinkChange('/login');
             this.props.history.replace('/login');
         }catch (ex) {
             console.log(ex.response.data);
@@ -162,7 +161,7 @@ class ForgetPasswordPage extends Form{
 
                                     <Button type={(steps.length-1)===activeStep? "submit":"button"} variant={'contained'} color={'success'}
                                             disabled={(activeStep === 3) || nextDisabled} onClick={(steps.length-1)===activeStep? null:handleNext}>
-                                        {(steps.length-1)===activeStep? "Signup":"Next"}
+                                        {(steps.length-1)===activeStep? "Submit":"Next"}
                                     </Button>
                                 </div>
                             </div>
