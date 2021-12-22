@@ -12,7 +12,8 @@ class VerificationPage extends Form {
             {name: 'verificationCode', type: 'text', placeholder: 'Verification Code', value: ''}
         ],
         errors: {},
-        snackState: false
+        snackState: false,
+        load: false
     }
 
     doSubmit = async()=>{
@@ -25,6 +26,7 @@ class VerificationPage extends Form {
             errors.verificationCode = ex.response.data;
             this.setState({errors});
         }
+        this.setState({load: true});
     }
 
     schema = {
@@ -54,7 +56,7 @@ class VerificationPage extends Form {
 
     render() {
         const {user, history} = this.props;
-        if(!user.name || user.validate.valid){
+        if(this.state.load&&!user.name&&user.validate.valid){
             history.replace('/');
         }
         document.title = 'Verification';

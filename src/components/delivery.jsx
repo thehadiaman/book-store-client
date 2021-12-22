@@ -73,6 +73,12 @@ class Delivery extends Component {
         let {value, deliveries} = this.state;
         deliveries = deliveries.reverse() || [];
         document.title = "Delivery Page";
+        const {user, history} = this.props;
+        if(!user.name){
+            history.replace('/');
+        }else if(user.name && !user.validate.valid){
+            history.replace('/verification');
+        }
 
         return (
             <Container style={{marginBottom: '150px'}}>

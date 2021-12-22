@@ -84,7 +84,7 @@ class TopNavBar extends Component {
 
                         <Box sx={{ flexGrow: 1 }} />
 
-                        {login? (user.type!=='delivery_pertner' && LoginTrueNavBarMenu): LoginFalseNavBarMenu}
+                        {login? (user.type!=='delivery_partner' && LoginTrueNavBarMenu): LoginFalseNavBarMenu}
 
                         {user.type==='delivery_partner' && LoginTrueNavBarMenuDeliveryPartner}
 

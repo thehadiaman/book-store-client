@@ -67,7 +67,7 @@ class App extends Component {
                         <TopNavBar {...this.state}/>
                         <div style={{marginBottom: '80px'}}/>
                         <Switch>
-                            <Route exact path={'/verification'} render={(props) => <VerificationPage {...props}/>}/>
+                            <Route exact path={'/verification'} render={(props) => <VerificationPage user={user} {...props}/>}/>
                             <Route exact path={'/logout'} render={(props)=> <Logout logout={this.logout} {...props}/>} />
                             <Route exact path={'/'} render={(props) => <Delivery user={this.state.user} {...props} />}/>
                             <Route render={()=><h1>404</h1>}/>
